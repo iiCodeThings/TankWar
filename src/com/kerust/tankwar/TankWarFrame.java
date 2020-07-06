@@ -47,12 +47,7 @@ public class TankWarFrame extends Frame {
 
         this.addKeyListener(new MyKeyListener());
 
-        for (int i = 0; i < 5; i ++) {
-            Point point = new Point().getRandomPoint();
-            Tank tank = new Tank(point.x, point.y, Group.BAD, this);
-            tank.setMoving(true);
-            hostileTanks.add(tank);
-        }
+        initTanks();
 
         new Thread() {
             @Override
@@ -69,6 +64,16 @@ public class TankWarFrame extends Frame {
                 }
             }
         }.start();
+    }
+
+    private void initTanks() {
+        int num = random.nextInt(5) + 3;
+        for (int i = 0; i < num; i ++) {
+            Point point = new Point().getRandomPoint();
+            Tank tank = new Tank(point.x, point.y, Group.BAD, this);
+            tank.setMoving(true);
+            hostileTanks.add(tank);
+        }
     }
 
     public void addHostileTank(Tank tank) {
@@ -218,6 +223,8 @@ public class TankWarFrame extends Frame {
                     break;
                 case KeyEvent.VK_CONTROL:
                     mainTank.fire();
+                    break;
+                case KeyEvent.VK_5:
                     break;
                 default:
                     break;
