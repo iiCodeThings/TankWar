@@ -87,13 +87,14 @@ public class Tank {
         }
 
         if (group == Group.BAD) {
+
+            if (random.nextInt(100) > 95) {
+                //setDirection(Direction.values()[random.nextInt(4)]);
+            }
+
             if (pos_x < 0 || pos_y < 0 || pos_x > TankWarFrame.LAYOUT_WIDTH - TANK_WIDTH
                     || pos_y > TankWarFrame.LAYOUT_HEIGHT - TANK_HEIGHT) {
-                int x = random.nextInt(4);
-                if (x == 0) setDirection(Direction.LEFT);
-                if (x == 1) setDirection(Direction.UP);
-                if (x == 2) setDirection(Direction.RIGHT);
-                if (x == 3) setDirection(Direction.DOWN);
+                setDirection(Direction.values()[random.nextInt(4)]);
             }
         }
         if (pos_x < 0) pos_x = 0;
