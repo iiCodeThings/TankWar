@@ -25,6 +25,14 @@ public class Tank {
         this.tankWarFrame = tankWarFrame;
     }
 
+    public int getX() {
+        return pos_x;
+    }
+
+    public int getY() {
+        return pos_y;
+    }
+
     public void paint(Graphics graphics) {
 
         move();

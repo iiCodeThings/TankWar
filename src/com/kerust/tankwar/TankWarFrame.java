@@ -110,8 +110,8 @@ public class TankWarFrame extends Frame {
                 if (tank.isCollideWith(bullet)) {
                     tank.die();
                     bullet.die();
-                    new Explode(bullet.getX(), bullet.getY()).explode(g);
-                    continue;
+                    new Explode(tank.getX(), tank.getY()).explode(g);
+                    return;
                 }
             }
         }
