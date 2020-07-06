@@ -1,5 +1,7 @@
 package com.kerust.tankwar;
 
+import test.ImageBufferedTest;
+
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -16,7 +18,9 @@ public class TankWarFrame extends Frame {
     public static final int LAYOUT_HEIGHT = 540;
     public static final String TANKWAR_TITLE = "Tank War";
 
-    public Random random = new Random();
+    private Random random = new Random();
+
+    private Image offsetScreen = null;
 
     /* 敌对坦克*/
     private List<Tank> hostileTanks = new ArrayList<>();
@@ -74,6 +78,20 @@ public class TankWarFrame extends Frame {
     }
 
     @Override
+    public void update(Graphics g) {
+        if (offsetScreen == null) {
+            offsetScreen = createImage(LAYOUT_WIDTH, LAYOUT_HEIGHT);
+        }
+        Graphics offsetGraphics = offsetScreen.getGraphics();
+        //Color color = offsetGraphics.getColor();
+        offsetGraphics.setColor(Color.BLACK);
+        offsetGraphics.fillRect(0, 0, LAYOUT_WIDTH, LAYOUT_HEIGHT);
+        //offsetGraphics.setColor(color);
+        paint(offsetGraphics);
+        g.drawImage(offsetScreen, 0, 0, null);
+    }
+
+    @Override
     public void paint(Graphics g) {
         showInfo(g);
         mainTank.paint(g);
@@ -89,7 +107,12 @@ public class TankWarFrame extends Frame {
             Tank tank = hostileTanks.get(i);
             for (int j = 0; j < mainTankBullets.size(); j ++) {
                 Bullet bullet = mainTankBullets.get(j);
-                tank.collideWith(bullet);
+                if (tank.isCollideWith(bullet)) {
+                    tank.die();
+                    bullet.die();
+                    new Explode(bullet.getX(), bullet.getY()).explode(g);
+                    continue;
+                }
             }
         }
     }

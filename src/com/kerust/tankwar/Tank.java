@@ -94,18 +94,15 @@ public class Tank {
         if (pos_y > TankWarFrame.LAYOUT_HEIGHT - TANK_HEIGHT) pos_y = TankWarFrame.LAYOUT_HEIGHT - TANK_HEIGHT;
     }
 
-    public void collideWith(Bullet bullet) {
+    public boolean isCollideWith(Bullet bullet) {
 
         if (this.group == bullet.getGroup()) {
-            return;
+            return false;
         }
 
         Rectangle tankRect = new Rectangle(this.pos_x, this.pos_y, TANK_WIDTH, TANK_HEIGHT);
         Rectangle bulletRect = new Rectangle(bullet.getX(), bullet.getY(), bullet.BULLET_WIDTH, bullet.BULLET_HEIGHT);
-        if (tankRect.intersects(bulletRect)) {
-            this.die();
-            bullet.die();
-        }
+        return tankRect.intersects(bulletRect);
     }
 
     public void die() {

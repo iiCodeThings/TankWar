@@ -16,6 +16,7 @@ public class ResourceMgr {
     public static BufferedImage bulletR = null;
     public static BufferedImage bulletD = null;
 
+    public static BufferedImage[] explode = new BufferedImage[19];
     static {
         try {
             tankL = ImageIO.read(ResourceMgr.class.getClassLoader().getResourceAsStream("images/tankL.png"));
@@ -28,6 +29,10 @@ public class ResourceMgr {
             bulletR = ImageIO.read(ResourceMgr.class.getClassLoader().getResourceAsStream("images/bulletR.png"));
             bulletD = ImageIO.read(ResourceMgr.class.getClassLoader().getResourceAsStream("images/bulletD.png"));
 
+            for (int i = 0; i < explode.length; i ++) {
+                String path = "images/explode/" + i + ".png";
+                explode[i] = ImageIO.read(ResourceMgr.class.getClassLoader().getResourceAsStream(path));
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
