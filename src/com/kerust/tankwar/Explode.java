@@ -16,7 +16,7 @@ public class Explode {
         this.x = x;
         this.y = y;
         this.tankWarFrame = tankWarFrame;
-        //new Audio("src/images/audio/explode.wav").start();
+        new Audio("src/images/audio/explode.wav").start();
     }
 
     public void explode(Graphics graphics) {

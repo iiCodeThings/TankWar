@@ -14,8 +14,8 @@ import java.util.Random;
 public class TankWarFrame extends Frame {
     
     public static final int EXIT_SUCCESS = 0;
-    public static final int LAYOUT_WIDTH = 960;
-    public static final int LAYOUT_HEIGHT = 540;
+    public static int LAYOUT_WIDTH = 1920;
+    public static int LAYOUT_HEIGHT = 1080;
     public static final String TANKWAR_TITLE = "Tank War";
 
     private Random random = new Random();
@@ -33,19 +33,22 @@ public class TankWarFrame extends Frame {
     /* 主战坦克*/
     private Tank mainTank = new Tank(0, 100, Group.GOOD, this);
 
+    static {
+        Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
+        LAYOUT_WIDTH = (int)(dimension.getWidth() * 0.9);
+        LAYOUT_HEIGHT = (int)(dimension.getHeight() * 0.9);
+    }
     public TankWarFrame() {
+        this.setVisible(true);
         this.setTitle(TANKWAR_TITLE);
         this.setSize(LAYOUT_WIDTH, LAYOUT_HEIGHT);
-        this.setVisible(true);
-
+        this.addKeyListener(new MyKeyListener());
         this.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
                 System.exit(EXIT_SUCCESS);
             }
         });
-
-        this.addKeyListener(new MyKeyListener());
 
         initTanks();
 
@@ -225,7 +228,13 @@ public class TankWarFrame extends Frame {
                     mainTank.fire();
                     break;
                 case KeyEvent.VK_5:
+                    initTanks();
                     break;
+                case KeyEvent.VK_P:
+                    for (int i = 0; i < hostileTanks.size(); i ++) {
+                        Tank tank = hostileTanks.get(i);
+                        tank.setMoving(! tank.getMoving());
+                    }
                 default:
                     break;
             }
