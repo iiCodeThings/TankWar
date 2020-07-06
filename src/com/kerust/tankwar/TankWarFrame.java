@@ -28,6 +28,8 @@ public class TankWarFrame extends Frame {
     /* 主战坦克的子弹*/
     private List<Bullet> mainTankBullets = new ArrayList<>();
 
+    private List<Explode> explodes = new ArrayList<>();
+
     /* 主战坦克*/
     private Tank mainTank = new Tank(0, 100, Group.GOOD, this);
 
@@ -77,6 +79,14 @@ public class TankWarFrame extends Frame {
         hostileTanks.remove(tank);
     }
 
+    public void addExplode(Explode explode) {
+        this.explodes.add(explode);
+    }
+
+    public void removeExplode(Explode explode) {
+        this.explodes.remove(explode);
+    }
+
     @Override
     public void update(Graphics g) {
         if (offsetScreen == null) {
@@ -103,6 +113,10 @@ public class TankWarFrame extends Frame {
             hostileTanks.get(i).paint(g);
         }
 
+        for (int i = 0; i < explodes.size(); i ++) {
+            explodes.get(i).explode(g);
+        }
+
         for (int i = 0; i < hostileTanks.size(); i ++) {
             Tank tank = hostileTanks.get(i);
             for (int j = 0; j < mainTankBullets.size(); j ++) {
@@ -110,7 +124,7 @@ public class TankWarFrame extends Frame {
                 if (tank.isCollideWith(bullet)) {
                     tank.die();
                     bullet.die();
-                    new Explode(tank.getX(), tank.getY()).explode(g);
+                    addExplode(new Explode(tank.getX(), tank.getY(), this));
                     return;
                 }
             }

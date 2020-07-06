@@ -10,17 +10,21 @@ public class Explode {
     private int x = 0;
     private int y = 0;
     private int step = 0;
+    private TankWarFrame tankWarFrame = null;
 
-    public Explode(int x, int y) {
+    public Explode(int x, int y, TankWarFrame tankWarFrame) {
         this.x = x;
         this.y = y;
+        this.tankWarFrame = tankWarFrame;
         //new Audio("src/images/audio/explode.wav").start();
     }
 
     public void explode(Graphics graphics) {
-        step = (step + 1) % ResourceMgr.explode.length;
         int dx = x + Tank.TANK_WIDTH / 2 - WIDTH / 2;
         int dy = y + Tank.TANK_HEIGHT / 2 - HEIGHT / 2;
-        graphics.drawImage(ResourceMgr.explode[step], dx, dy, null);
+        graphics.drawImage(ResourceMgr.explode[step ++], dx, dy, null);
+        if (step >= ResourceMgr.explode.length) {
+            tankWarFrame.removeExplode(this);
+        }
     }
 }
