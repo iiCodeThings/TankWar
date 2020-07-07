@@ -16,6 +16,11 @@ public class ResourceMgr {
     public static BufferedImage bulletR = null;
     public static BufferedImage bulletD = null;
 
+    /* 地雷 */
+    public static BufferedImage[] mines = new BufferedImage[21];
+
+    public static BufferedImage[] stars = new BufferedImage[19];
+
     public static BufferedImage[] explode = new BufferedImage[19];
     static {
         try {
@@ -32,6 +37,16 @@ public class ResourceMgr {
             for (int i = 0; i < explode.length; i ++) {
                 String path = "images/explode/" + i + ".png";
                 explode[i] = ImageIO.read(ResourceMgr.class.getClassLoader().getResourceAsStream(path));
+            }
+
+            for (int i = 0; i < mines.length; i ++) {
+                String path = "images/mine/mine" + i + ".png";
+                mines[i] = ImageIO.read(ResourceMgr.class.getClassLoader().getResourceAsStream(path));
+            }
+
+            for (int i = 0; i < stars.length; i ++) {
+                String path = "images/star/star" + i + ".png";
+                stars[i] = ImageIO.read(ResourceMgr.class.getClassLoader().getResourceAsStream(path));
             }
         } catch (IOException e) {
             e.printStackTrace();

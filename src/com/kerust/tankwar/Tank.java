@@ -18,15 +18,23 @@ public class Tank {
     private Direction direction = Direction.RIGHT;
     private Random random = new Random();
 
+    /* 敌方坦克携带的奖励，打死后可以显示奖励 */
+    private Award.Type awardType = null;
+
     public Tank(int pos_x, int pos_y, Group group, TankWarFrame tankWarFrame) {
         this.pos_x = pos_x;
         this.pos_y = pos_y;
         this.group = group;
+        awardType = Award.Type.STAR;
         this.tankWarFrame = tankWarFrame;
     }
 
     public int getX() {
         return pos_x;
+    }
+
+    public Award.Type getAwardType() {
+        return this.awardType;
     }
 
     public int getY() {
@@ -90,6 +98,7 @@ public class Tank {
 
             if (pos_x < 0 || pos_y < 0 || pos_x > TankWarFrame.LAYOUT_WIDTH - TANK_WIDTH
                     || pos_y > TankWarFrame.LAYOUT_HEIGHT - TANK_HEIGHT || random.nextInt(100) > 95) {
+                /* 碰到边缘，或者走一会儿就随机改变方向 */
                 setDirection(Direction.values()[random.nextInt(4)]);
             }
         }
@@ -120,6 +129,20 @@ public class Tank {
 
     public boolean getMoving() { return this.isMoving; }
 
+    public void fireEverywhere() {
+        int x, y;
+
+        x = this.pos_x + TANK_WIDTH / 2 - Bullet.BULLET_WIDTH / 2;
+        y = this.pos_y + TANK_HEIGHT / 2 - Bullet.BULLET_HEIGHT / 2;
+        this.tankWarFrame.addMainTankBullet(new Bullet(x, y, Direction.LEFT, this.group, this.tankWarFrame));
+        this.tankWarFrame.addMainTankBullet(new Bullet(x, y, Direction.RIGHT, this.group, this.tankWarFrame));
+
+        x = this.pos_x + TANK_WIDTH / 2 - Bullet.BULLET_HEIGHT / 2;
+        y = this.pos_y + TANK_HEIGHT / 2 - Bullet.BULLET_WIDTH / 2;
+        this.tankWarFrame.addMainTankBullet(new Bullet(x, y, Direction.UP, this.group, this.tankWarFrame));
+        this.tankWarFrame.addMainTankBullet(new Bullet(x, y, Direction.DOWN, this.group, this.tankWarFrame));
+    }
+
     public void fire() {
 
         int x, y;
@@ -141,9 +164,15 @@ public class Tank {
                 break;
         }
         if (group == Group.GOOD) {
-            new Audio("src/images/audio/bullet_sound.wav").start();
+            //new Audio("src/images/audio/bullet_sound.wav").start();
         } else {
-            new Audio("src/images/audio/bullet_bad_sound.wav").start();
+            //new Audio("src/images/audio/bullet_bad_sound.wav").start();
         }
+    }
+
+    public boolean isCollideWith(Award award) {
+        Rectangle tankRect = new Rectangle(this.pos_x, this.pos_y, TANK_WIDTH, TANK_HEIGHT);
+        Rectangle awardRect = new Rectangle(award.getX(), award.getY(), award.getWidth(), award.getHeight());
+        return tankRect.intersects(awardRect);
     }
 }

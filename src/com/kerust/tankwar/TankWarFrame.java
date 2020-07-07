@@ -22,16 +22,20 @@ public class TankWarFrame extends Frame {
 
     private Image offsetScreen = null;
 
+    /* 爆炸效果 */
+    private List<Explode> explodes = new ArrayList<>();
+
     /* 敌对坦克*/
     private List<Tank> hostileTanks = new ArrayList<>();
 
     /* 主战坦克的子弹*/
     private List<Bullet> mainTankBullets = new ArrayList<>();
 
-    private List<Explode> explodes = new ArrayList<>();
-
     /* 主战坦克*/
     private Tank mainTank = new Tank(0, 100, Group.GOOD, this);
+
+    /* 奖励 */
+    private List<Award> awards = new ArrayList<>();
 
     static {
         Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
@@ -51,6 +55,7 @@ public class TankWarFrame extends Frame {
         });
 
         initTanks();
+        initAwards();
 
         new Thread() {
             @Override
@@ -77,6 +82,18 @@ public class TankWarFrame extends Frame {
             tank.setMoving(true);
             hostileTanks.add(tank);
         }
+    }
+
+    private void initAwards() {
+        Award mine = new Award(100, 100, Award.Type.MINE, this);
+    }
+
+    public void addAward(Award award) {
+        this.awards.add(award);
+    }
+
+    public void removeAward(Award award) {
+        this.awards.remove(award);
     }
 
     public void addHostileTank(Tank tank) {
@@ -125,6 +142,9 @@ public class TankWarFrame extends Frame {
             explodes.get(i).explode(g);
         }
 
+        for (int i = 0; i < awards.size(); i ++) {
+            awards.get(i).paint(g);
+        }
         for (int i = 0; i < hostileTanks.size(); i ++) {
             Tank tank = hostileTanks.get(i);
             for (int j = 0; j < mainTankBullets.size(); j ++) {
@@ -133,7 +153,27 @@ public class TankWarFrame extends Frame {
                     tank.die();
                     bullet.die();
                     addExplode(new Explode(tank.getX(), tank.getY(), this));
+                    addAward(new Award(tank.getX(), tank.getY(), tank.getAwardType(), this));
                     return;
+                }
+            }
+        }
+
+        /* 主战坦克吃奖励判断 */
+        for (int i = 0; i < awards.size(); i ++) {
+            Award award = awards.get(i);
+            if (mainTank.isCollideWith(award)) {
+                award.die();
+                if (award.getType() == Award.Type.MINE) {
+                    /* 成功吃掉地雷会消灭屏幕上所有敌方坦克*/
+                    for (int j = 0; j < hostileTanks.size(); j++) {
+                        Tank tank = hostileTanks.get(j);
+                        tank.die();
+                        addExplode(new Explode(tank.getX(), tank.getY(), this));
+                    }
+                } else if (award.getType() == Award.Type.STAR) {
+                    /* 成功吃掉星星会朝四个方向打子弹 */
+                    mainTank.fireEverywhere();
                 }
             }
         }
