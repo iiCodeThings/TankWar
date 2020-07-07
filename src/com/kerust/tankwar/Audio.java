@@ -28,31 +28,28 @@ public class Audio extends Thread {
     @Override
     public void run() {
 
-        AudioFormat format = audioInputStream.getFormat();
         SourceDataLine sourceDataLine = null;
+        AudioFormat format = audioInputStream.getFormat();
         DataLine.Info info = new DataLine.Info(SourceDataLine.class, format);
         try {
             sourceDataLine = (SourceDataLine) AudioSystem.getLine(info);
-        } catch (LineUnavailableException e) {
-            e.printStackTrace();
-        }
-        try {
             sourceDataLine.open(format);
         } catch (LineUnavailableException e) {
             e.printStackTrace();
         }
-        sourceDataLine.start();
+
         int nBytesRead = 0;
+        sourceDataLine.start();
         byte[] abData = new byte[1024];
-        while (nBytesRead != -1) {
-            try {
-                nBytesRead = audioInputStream.read(abData, 0, abData.length);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            if (nBytesRead >= 0)
+
+        try {
+            while ((nBytesRead = audioInputStream.read(abData, 0, abData.length)) != -1) {
                 sourceDataLine.write(abData, 0, nBytesRead);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
         }
+
         sourceDataLine.drain();
         sourceDataLine.close();
     }
