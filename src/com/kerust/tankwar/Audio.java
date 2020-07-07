@@ -7,6 +7,7 @@ import javax.sound.sampled.DataLine;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.SourceDataLine;
 import javax.sound.sampled.UnsupportedAudioFileException;
+import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -17,7 +18,7 @@ public class Audio extends Thread {
 
     public Audio(InputStream inputStream) {
         try {
-            this.audioInputStream = AudioSystem.getAudioInputStream(inputStream);
+            this.audioInputStream = AudioSystem.getAudioInputStream(new BufferedInputStream(inputStream));
         } catch (UnsupportedAudioFileException e) {
             e.printStackTrace();
         } catch (IOException e) {
