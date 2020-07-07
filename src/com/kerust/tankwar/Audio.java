@@ -9,14 +9,15 @@ import javax.sound.sampled.SourceDataLine;
 import javax.sound.sampled.UnsupportedAudioFileException;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 
 public class Audio extends Thread {
 
     private AudioInputStream audioInputStream = null;
 
-    public Audio(String wav) {
+    public Audio(InputStream inputStream) {
         try {
-            this.audioInputStream = AudioSystem.getAudioInputStream(new File(wav));
+            this.audioInputStream = AudioSystem.getAudioInputStream(inputStream);
         } catch (UnsupportedAudioFileException e) {
             e.printStackTrace();
         } catch (IOException e) {
