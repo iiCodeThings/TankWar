@@ -5,8 +5,8 @@ import java.awt.*;
 public class Bullet {
 
     public static final int BULLET_SPEED = 15;
-    public static final int BULLET_WIDTH = ResourceMgr.bulletL.getWidth();
-    public static final int BULLET_HEIGHT = ResourceMgr.bulletL.getHeight();
+    public static final int BULLET_WIDTH = ResourceMgr.bullets[0].getWidth();
+    public static final int BULLET_HEIGHT = ResourceMgr.bullets[0].getHeight();
 
     private int pos_x = 0;
     private Group group = Group.BAD;
@@ -48,16 +48,16 @@ public class Bullet {
 
         switch (direction) {
             case LEFT:
-                graphics.drawImage(ResourceMgr.bulletL, pos_x, pos_y, null);
+                graphics.drawImage(ResourceMgr.bullets[Direction.LEFT.ordinal()], pos_x, pos_y, null);
                 break;
             case UP:
-                graphics.drawImage(ResourceMgr.bulletU, pos_x, pos_y, null);
+                graphics.drawImage(ResourceMgr.bullets[Direction.UP.ordinal()], pos_x, pos_y, null);
                 break;
             case RIGHT:
-                graphics.drawImage(ResourceMgr.bulletR, pos_x, pos_y, null);
+                graphics.drawImage(ResourceMgr.bullets[Direction.RIGHT.ordinal()], pos_x, pos_y, null);
                 break;
             case DOWN:
-                graphics.drawImage(ResourceMgr.bulletD, pos_x, pos_y, null);
+                graphics.drawImage(ResourceMgr.bullets[Direction.DOWN.ordinal()], pos_x, pos_y, null);
                 break;
             default:
                 break;

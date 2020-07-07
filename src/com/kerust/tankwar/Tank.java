@@ -6,8 +6,8 @@ import java.util.Random;
 public class Tank {
 
     public static final int TANK_SPEED = 5;
-    public static final int TANK_WIDTH = ResourceMgr.tankD.getWidth();
-    public static final int TANK_HEIGHT = ResourceMgr.tankD.getHeight();
+    public static final int TANK_WIDTH = ResourceMgr.mainTanks[0].getWidth();
+    public static final int TANK_HEIGHT = ResourceMgr.mainTanks[0].getHeight();
 
     private int pos_x = 0;
     private int pos_y = 0;
@@ -72,16 +72,32 @@ public class Tank {
 
         switch (direction) {
             case LEFT:
-                graphics.drawImage(ResourceMgr.tankL, pos_x, pos_y, null);
+                if (group == Group.GOOD) {
+                    graphics.drawImage(ResourceMgr.mainTanks[Direction.LEFT.ordinal()], pos_x, pos_y, null);
+                } else {
+                    graphics.drawImage(ResourceMgr.hostileTanks[Direction.LEFT.ordinal()], pos_x, pos_y, null);
+                }
                 break;
             case UP:
-                graphics.drawImage(ResourceMgr.tankU, pos_x, pos_y, null);
+                if (group == Group.GOOD) {
+                    graphics.drawImage(ResourceMgr.mainTanks[Direction.UP.ordinal()], pos_x, pos_y, null);
+                } else {
+                    graphics.drawImage(ResourceMgr.hostileTanks[Direction.UP.ordinal()], pos_x, pos_y, null);
+                }
                 break;
             case RIGHT:
-                graphics.drawImage(ResourceMgr.tankR, pos_x, pos_y, null);
+                if (group == Group.GOOD) {
+                    graphics.drawImage(ResourceMgr.mainTanks[Direction.RIGHT.ordinal()], pos_x, pos_y, null);
+                } else {
+                    graphics.drawImage(ResourceMgr.hostileTanks[Direction.RIGHT.ordinal()], pos_x, pos_y, null);
+                }
                 break;
             case DOWN:
-                graphics.drawImage(ResourceMgr.tankD, pos_x, pos_y, null);
+                if (group == Group.GOOD) {
+                    graphics.drawImage(ResourceMgr.mainTanks[Direction.DOWN.ordinal()], pos_x, pos_y, null);
+                } else {
+                    graphics.drawImage(ResourceMgr.hostileTanks[Direction.DOWN.ordinal()], pos_x, pos_y, null);
+                }
                 break;
             default:
                 break;

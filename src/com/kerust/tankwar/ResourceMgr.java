@@ -6,33 +6,41 @@ import java.io.IOException;
 
 public class ResourceMgr {
 
-    public static BufferedImage tankL = null;
-    public static BufferedImage tankU = null;
-    public static BufferedImage tankR = null;
-    public static BufferedImage tankD = null;
+    /* 子弹 */
+    public static BufferedImage[] bullets = new BufferedImage[4];
 
-    public static BufferedImage bulletL = null;
-    public static BufferedImage bulletU = null;
-    public static BufferedImage bulletR = null;
-    public static BufferedImage bulletD = null;
+    /* 主战坦克 */
+    public static BufferedImage[] mainTanks = new BufferedImage[4];
 
-    /* 地雷 */
+    /* 敌对坦克 */
+    public static BufferedImage[] hostileTanks = new BufferedImage[4];
+
+    /* 地雷奖励 */
     public static BufferedImage[] mines = new BufferedImage[21];
 
+    /* 五角星奖励*/
     public static BufferedImage[] stars = new BufferedImage[19];
 
+    /* 爆炸特效 */
     public static BufferedImage[] explode = new BufferedImage[19];
+
+    public static BufferedImage tanks = null;
     static {
         try {
-            tankL = ImageIO.read(ResourceMgr.class.getClassLoader().getResourceAsStream("images/tankL.png"));
-            tankU = ImageIO.read(ResourceMgr.class.getClassLoader().getResourceAsStream("images/tankU.png"));
-            tankR = ImageIO.read(ResourceMgr.class.getClassLoader().getResourceAsStream("images/tankR.png"));
-            tankD = ImageIO.read(ResourceMgr.class.getClassLoader().getResourceAsStream("images/tankD.png"));
+            for (int i = 0; i < bullets.length; i ++) {
+                String path = "images/bullet/bullet" + i + ".png";
+                bullets[i] = ImageIO.read(ResourceMgr.class.getClassLoader().getResourceAsStream(path));
+            }
 
-            bulletL = ImageIO.read(ResourceMgr.class.getClassLoader().getResourceAsStream("images/bulletL.png"));
-            bulletU = ImageIO.read(ResourceMgr.class.getClassLoader().getResourceAsStream("images/bulletU.png"));
-            bulletR = ImageIO.read(ResourceMgr.class.getClassLoader().getResourceAsStream("images/bulletR.png"));
-            bulletD = ImageIO.read(ResourceMgr.class.getClassLoader().getResourceAsStream("images/bulletD.png"));
+            for (int i = 0; i < mainTanks.length; i ++) {
+                String path = "images/tank/main_tank_" + i + ".png";
+                mainTanks[i] = ImageIO.read(ResourceMgr.class.getClassLoader().getResourceAsStream(path));
+            }
+
+            for (int i = 0; i < hostileTanks.length; i ++) {
+                String path = "images/tank/hostile_tank_" + i + ".png";
+                hostileTanks[i] = ImageIO.read(ResourceMgr.class.getClassLoader().getResourceAsStream(path));
+            }
 
             for (int i = 0; i < explode.length; i ++) {
                 String path = "images/explode/" + i + ".png";
@@ -48,6 +56,8 @@ public class ResourceMgr {
                 String path = "images/star/star" + i + ".png";
                 stars[i] = ImageIO.read(ResourceMgr.class.getClassLoader().getResourceAsStream(path));
             }
+
+            tanks = ImageIO.read(ResourceMgr.class.getClassLoader().getResourceAsStream("images/tank/new_tank.png"));
         } catch (IOException e) {
             e.printStackTrace();
         }

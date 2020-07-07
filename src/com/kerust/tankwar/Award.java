@@ -70,6 +70,8 @@ public class Award {
 
     public void paint(Graphics graphics) {
 
+        graphics.drawImage(ResourceMgr.tanks, this.x, this.y, null);
+
         if (this.type == Type.NONE) {
             return;
         }
@@ -88,7 +90,10 @@ public class Award {
             graphics.drawImage(ResourceMgr.mines[step % ResourceMgr.mines.length], this.x, this.y, null);
         } else if (this.type == Type.STAR) {
             graphics.drawImage(ResourceMgr.stars[step % ResourceMgr.stars.length], this.x, this.y, null);
+        } else if (this.type == Type.TANK) {
+            graphics.drawImage(ResourceMgr.tanks, this.x, this.y, null);
         }
+
     }
 
     public void die() {
@@ -98,6 +103,7 @@ public class Award {
     enum Type {
         NONE, /* 无任何奖励 */
         STAR, /* 吃了武器会变厉害 */
-        MINE /* 地雷： 吃了会炸掉屏幕上所有敌方坦克 */
+        MINE, /* 地雷： 吃了会炸掉屏幕上所有敌方坦克 */
+        TANK /* 吃了增加一条命 */
     }
 }
