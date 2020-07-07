@@ -67,7 +67,7 @@ public class Bullet {
     public void move() {
 
         if (! isLiving) {
-            tankWarFrame.removeMainTankBullet(this);
+            tankWarFrame.removeBullet(this);
             return;
         }
 
@@ -89,7 +89,7 @@ public class Bullet {
         }
 
         if (pos_x < 0 || pos_y < 0 || pos_x > TankWarFrame.LAYOUT_WIDTH || pos_y > TankWarFrame.LAYOUT_HEIGHT) {
-            this.tankWarFrame.removeMainTankBullet(this);
+            this.tankWarFrame.removeBullet(this);
         }
     }
 

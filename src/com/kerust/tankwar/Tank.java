@@ -18,6 +18,9 @@ public class Tank {
     private Direction direction = Direction.RIGHT;
     private Random random = new Random();
 
+    /* 有几条命 */
+    private int lifeNumber = 0;
+
     /* 敌方坦克携带的奖励，打死后可以显示奖励 */
     private Award.Type awardType = null;
 
@@ -27,10 +30,25 @@ public class Tank {
         this.group = group;
         this.tankWarFrame = tankWarFrame;
         awardType = Award.getRandomAwardType();
+        this.lifeNumber = 3; //(group == Group.GOOD? 3 : 1);
     }
 
     public int getX() {
         return pos_x;
+    }
+
+    public int getLifeNumber() {
+        return this.lifeNumber;
+    }
+
+    public void addLifeNumber() {
+        this.lifeNumber += 1;
+    }
+
+    public void subLifeNumber() {
+        if (this.lifeNumber > 0) {
+            this.lifeNumber -= 1;
+        }
     }
 
     public Award.Type getAwardType() {
@@ -42,6 +60,13 @@ public class Tank {
     }
 
     public void paint(Graphics graphics) {
+
+        if (! isLiving) {
+            if (group == Group.BAD) {
+                tankWarFrame.removeHostileTank(this);
+            }
+            return;
+        }
 
         move();
 
@@ -69,10 +94,6 @@ public class Tank {
 
     public void move() {
 
-        if (! isLiving) {
-            tankWarFrame.removeHostileTank(this);
-            return;
-        }
         if (! isMoving) {
             return;
         }
@@ -138,13 +159,13 @@ public class Tank {
 
         x = this.pos_x + TANK_WIDTH / 2 - Bullet.BULLET_WIDTH / 2;
         y = this.pos_y + TANK_HEIGHT / 2 - Bullet.BULLET_HEIGHT / 2;
-        this.tankWarFrame.addMainTankBullet(new Bullet(x, y, Direction.LEFT, this.group, this.tankWarFrame));
-        this.tankWarFrame.addMainTankBullet(new Bullet(x, y, Direction.RIGHT, this.group, this.tankWarFrame));
+        this.tankWarFrame.addBullet(new Bullet(x, y, Direction.LEFT, this.group, this.tankWarFrame));
+        this.tankWarFrame.addBullet(new Bullet(x, y, Direction.RIGHT, this.group, this.tankWarFrame));
 
         x = this.pos_x + TANK_WIDTH / 2 - Bullet.BULLET_HEIGHT / 2;
         y = this.pos_y + TANK_HEIGHT / 2 - Bullet.BULLET_WIDTH / 2;
-        this.tankWarFrame.addMainTankBullet(new Bullet(x, y, Direction.UP, this.group, this.tankWarFrame));
-        this.tankWarFrame.addMainTankBullet(new Bullet(x, y, Direction.DOWN, this.group, this.tankWarFrame));
+        this.tankWarFrame.addBullet(new Bullet(x, y, Direction.UP, this.group, this.tankWarFrame));
+        this.tankWarFrame.addBullet(new Bullet(x, y, Direction.DOWN, this.group, this.tankWarFrame));
     }
 
     public void fire() {
@@ -156,13 +177,13 @@ public class Tank {
             case RIGHT:
                 x = this.pos_x + TANK_WIDTH / 2 - Bullet.BULLET_WIDTH / 2;
                 y = this.pos_y + TANK_HEIGHT / 2 - Bullet.BULLET_HEIGHT / 2;
-                this.tankWarFrame.addMainTankBullet(new Bullet(x, y, this.direction, this.group, this.tankWarFrame));
+                this.tankWarFrame.addBullet(new Bullet(x, y, this.direction, this.group, this.tankWarFrame));
                 break;
             case UP:
             case DOWN:
                 x = this.pos_x + TANK_WIDTH / 2 - Bullet.BULLET_HEIGHT / 2;
                 y = this.pos_y + TANK_HEIGHT / 2 - Bullet.BULLET_WIDTH / 2;
-                this.tankWarFrame.addMainTankBullet(new Bullet(x, y, this.direction, this.group, this.tankWarFrame));
+                this.tankWarFrame.addBullet(new Bullet(x, y, this.direction, this.group, this.tankWarFrame));
                 break;
             default:
                 break;
@@ -173,5 +194,9 @@ public class Tank {
         Rectangle tankRect = new Rectangle(this.pos_x, this.pos_y, TANK_WIDTH, TANK_HEIGHT);
         Rectangle awardRect = new Rectangle(award.getX(), award.getY(), award.getWidth(), award.getHeight());
         return tankRect.intersects(awardRect);
+    }
+
+    public boolean getLiving() {
+        return isLiving;
     }
 }

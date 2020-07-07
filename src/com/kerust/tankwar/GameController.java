@@ -5,14 +5,19 @@ import java.awt.*;
 public class GameController {
 
     public static final int BASE = 30;
+
+    /* 无敌模式，默认fasle */
+    public static final boolean GOD_ON = false;
     public static final boolean ENABLE_SOUND = true;
+
+    private static boolean isGameOver = false;
 
     public static void main(String[] args) {
         TankWarFrame tankWarFrame = new TankWarFrame();
 
         Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
         System.out.println(dimension.getWidth() + " " +  dimension.getHeight());
-        while (true) {
+        while (! isGameOver) {
             tankWarFrame.repaint();
             try {
                 Thread.sleep(1000 / BASE);
@@ -20,5 +25,23 @@ public class GameController {
                 e.printStackTrace();
             }
         }
+
+        for (int i = 0; i < 100; i ++) {
+            tankWarFrame.repaint();
+            try {
+                Thread.sleep(1000 / BASE);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+
+        tankWarFrame.gameOver();
+    }
+
+    public static void gameOver() {
+        if (GOD_ON) {
+            return;
+        }
+        isGameOver = true;
     }
 }

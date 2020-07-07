@@ -2,6 +2,7 @@ package com.kerust.tankwar;
 
 import test.ImageBufferedTest;
 
+import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -32,7 +33,7 @@ public class TankWarFrame extends Frame {
     private List<Tank> hostileTanks = new ArrayList<>();
 
     /* 主战坦克的子弹*/
-    private List<Bullet> mainTankBullets = new ArrayList<>();
+    private List<Bullet> bullets = new ArrayList<>();
 
     /* 主战坦克*/
     private Tank mainTank = new Tank(0, 100, Group.GOOD, this);
@@ -123,9 +124,13 @@ public class TankWarFrame extends Frame {
     @Override
     public void paint(Graphics g) {
         showInfo(g);
-        mainTank.paint(g);
-        for (int i = 0; i < mainTankBullets.size(); i ++) {
-            mainTankBullets.get(i).paint(g);
+
+        if (mainTank.getLiving()) {
+            mainTank.paint(g);
+        }
+
+        for (int i = 0; i < bullets.size(); i ++) {
+            bullets.get(i).paint(g);
         }
 
         for(int i = 0; i < hostileTanks.size(); i ++) {
@@ -141,8 +146,8 @@ public class TankWarFrame extends Frame {
         }
         for (int i = 0; i < hostileTanks.size(); i ++) {
             Tank tank = hostileTanks.get(i);
-            for (int j = 0; j < mainTankBullets.size(); j ++) {
-                Bullet bullet = mainTankBullets.get(j);
+            for (int j = 0; j < bullets.size(); j ++) {
+                Bullet bullet = bullets.get(j);
                 if (tank.isCollideWith(bullet)) {
                     tank.die();
                     bullet.die();
@@ -152,7 +157,6 @@ public class TankWarFrame extends Frame {
                 }
             }
         }
-
         /* 主战坦克吃奖励判断 */
         for (int i = 0; i < awards.size(); i ++) {
             Award award = awards.get(i);
@@ -172,22 +176,41 @@ public class TankWarFrame extends Frame {
                 }
             }
         }
+
+        /* 是否被敌方子弹击中 */
+        for (int i = 0; i < bullets.size(); i ++) {
+            Bullet bullet = bullets.get(i);
+            if (mainTank.isCollideWith(bullet)) {
+                bullet.die();
+                mainTank.subLifeNumber();
+                if (mainTank.getLifeNumber() == 0) {
+                    mainTank.die();
+                    GameController.gameOver();
+                }
+                addExplode(new Explode(mainTank.getX(), mainTank.getY(), this));
+            }
+        }
     }
 
     private void showInfo(Graphics graphics) {
         Color color = graphics.getColor();
         graphics.setColor(Color.WHITE);
-        graphics.drawString("Bullet Num: " + mainTankBullets.size(),5, 35);
+        graphics.drawString("Bullet Num: " + bullets.size(),5, 35);
         graphics.drawString("Tank  Num: " + hostileTanks.size(),5, 50);
         graphics.setColor(color);
     }
 
-    public void addMainTankBullet(Bullet bullet) {
-        mainTankBullets.add(bullet);
+    public void addBullet(Bullet bullet) {
+        bullets.add(bullet);
     }
 
-    public void removeMainTankBullet(Bullet bullet) {
-        mainTankBullets.remove(bullet);
+    public void removeBullet(Bullet bullet) {
+        bullets.remove(bullet);
+    }
+
+    public void gameOver() {
+        JOptionPane.showMessageDialog(null,
+                "Game Over!","game over",JOptionPane.ERROR_MESSAGE);
     }
 
     class Point {
