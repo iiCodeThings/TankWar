@@ -36,9 +36,9 @@ public class Bullet {
         this.tankWarFrame = tankWarFrame;
 
         if (group == Group.GOOD) {
-            new Audio("src/images/audio/good_bullet.wav").start();
+            Sound.play_good_bullet_sound();
         } else {
-            new Audio("src/images/audio/bad_bullet.wav").start();
+            Sound.play_bad_bullet_sound();
         }
     }
 

@@ -17,7 +17,7 @@ public class Explode {
         this.x = x;
         this.y = y;
         this.tankWarFrame = tankWarFrame;
-        new Audio("src/images/audio/boom.wav").start();
+        Sound.play_explode_sound();
     }
 
     public void explode(Graphics graphics) {

@@ -147,7 +147,7 @@ public class TankWarFrame extends Frame {
         for (int i = 0; i < awards.size(); i ++) {
             Award award = awards.get(i);
             if (mainTank.isCollideWith(award)) {
-                new Audio("src/images/audio/award.wav").start();
+                Sound.play_award_sound();
                 award.die();
                 if (award.getType() == Award.Type.MINE) {
                     /* 成功吃掉地雷会消灭屏幕上所有敌方坦克*/

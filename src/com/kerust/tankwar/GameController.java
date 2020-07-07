@@ -5,6 +5,7 @@ import java.awt.*;
 public class GameController {
 
     public static final int BASE = 30;
+    public static final boolean ENABLE_SOUND = true;
 
     public static void main(String[] args) {
         TankWarFrame tankWarFrame = new TankWarFrame();
