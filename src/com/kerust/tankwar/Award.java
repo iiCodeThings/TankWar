@@ -47,8 +47,6 @@ public class Award {
     }
 
     public static Type getRandomAwardType() {
-        if (true)
-            return Type.TANK;
         /* 50%的坦克没有奖励 */
         /* 30%的坦克有星星奖励 */
         /* 10%的坦克有地雷奖励 */

@@ -1,7 +1,5 @@
 package com.kerust.tankwar;
 
-import test.ImageBufferedTest;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;

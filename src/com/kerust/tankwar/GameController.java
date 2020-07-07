@@ -13,10 +13,9 @@ public class GameController {
     private static boolean isGameOver = false;
 
     public static void main(String[] args) {
+
         TankWarFrame tankWarFrame = new TankWarFrame();
 
-        Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
-        System.out.println(dimension.getWidth() + " " +  dimension.getHeight());
         while (! isGameOver) {
             tankWarFrame.repaint();
             try {
@@ -26,6 +25,7 @@ public class GameController {
             }
         }
 
+        /* 继续重绘约2s */
         for (int i = 0; i < 66; i ++) {
             tankWarFrame.repaint();
             try {
