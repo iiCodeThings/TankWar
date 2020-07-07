@@ -173,6 +173,9 @@ public class TankWarFrame extends Frame {
                 } else if (award.getType() == Award.Type.STAR) {
                     /* 成功吃掉星星会朝四个方向打子弹 */
                     mainTank.fireEverywhere();
+                } else if (award.getType() == Award.Type.TANK) {
+                    /* 成功吃掉会增加一条命 */
+                    mainTank.addLifeNumber();
                 }
             }
         }
@@ -197,6 +200,7 @@ public class TankWarFrame extends Frame {
         graphics.setColor(Color.WHITE);
         graphics.drawString("Bullet Num: " + bullets.size(),5, 35);
         graphics.drawString("Tank  Num: " + hostileTanks.size(),5, 50);
+        graphics.drawString("MainTank Life: " + mainTank.getLifeNumber(),5, 65);
         graphics.setColor(color);
     }
 

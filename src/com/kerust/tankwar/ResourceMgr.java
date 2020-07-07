@@ -24,7 +24,9 @@ public class ResourceMgr {
     /* 爆炸特效 */
     public static BufferedImage[] explode = new BufferedImage[19];
 
-    public static BufferedImage tanks = null;
+    /* 奖励一条命 */
+    public static BufferedImage[] awardTanks = new BufferedImage[21];
+
     static {
         try {
             for (int i = 0; i < bullets.length; i ++) {
@@ -57,7 +59,11 @@ public class ResourceMgr {
                 stars[i] = ImageIO.read(ResourceMgr.class.getClassLoader().getResourceAsStream(path));
             }
 
-            tanks = ImageIO.read(ResourceMgr.class.getClassLoader().getResourceAsStream("images/tank/new_tank.png"));
+            for (int i = 0; i < awardTanks.length; i ++) {
+                String path = "images/new/new_tank" + i + ".png";
+                awardTanks[i] = ImageIO.read(ResourceMgr.class.getClassLoader().getResourceAsStream(path));
+            }
+
         } catch (IOException e) {
             e.printStackTrace();
         }
