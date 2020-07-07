@@ -14,9 +14,13 @@ public class Tank {
     private Group group = Group.BAD;
     private boolean isMoving = false;
     private boolean isLiving = true;
+
     private TankWarFrame tankWarFrame = null;
     private Direction direction = Direction.RIGHT;
     private Random random = new Random();
+
+    /* 杀死的坦克数量*/
+    private static int killedTankNumber = 0;
 
     /* 有几条命 */
     private int lifeNumber = 0;
@@ -49,6 +53,10 @@ public class Tank {
         if (this.lifeNumber > 0) {
             this.lifeNumber -= 1;
         }
+    }
+
+    public int getKilledTankNumber() {
+        return killedTankNumber;
     }
 
     public Award.Type getAwardType() {
@@ -162,6 +170,9 @@ public class Tank {
 
     public void die() {
         isLiving = false;
+        if (group == Group.BAD) {
+            killedTankNumber += 1;
+        }
     }
 
     public void setMoving(boolean moving) {

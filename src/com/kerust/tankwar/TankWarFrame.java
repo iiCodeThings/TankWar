@@ -18,7 +18,7 @@ public class TankWarFrame extends Frame {
     public static int MAX_HOSTILE_TANK_NUM = 8;
     public static int HOSTILE_TANK_ADD_STEP = 1;
     public static int INIT_HOSTILE_TANK_NUM = 5;
-    public static final String TANKWAR_TITLE = "Tank War";
+    public static final String TANK_WAR_TITLE = "Tank War";
 
     private Random random = new Random();
 
@@ -46,7 +46,8 @@ public class TankWarFrame extends Frame {
     }
     public TankWarFrame() {
         this.setVisible(true);
-        this.setTitle(TANKWAR_TITLE);
+        this.setResizable(false);
+        this.setTitle(TANK_WAR_TITLE);
         this.setSize(LAYOUT_WIDTH, LAYOUT_HEIGHT);
         this.addKeyListener(new MyKeyListener());
         this.addWindowListener(new WindowAdapter() {
@@ -111,16 +112,15 @@ public class TankWarFrame extends Frame {
             offsetScreen = createImage(LAYOUT_WIDTH, LAYOUT_HEIGHT);
         }
         Graphics offsetGraphics = offsetScreen.getGraphics();
-        //Color color = offsetGraphics.getColor();
         offsetGraphics.setColor(Color.BLACK);
         offsetGraphics.fillRect(0, 0, LAYOUT_WIDTH, LAYOUT_HEIGHT);
-        //offsetGraphics.setColor(color);
         paint(offsetGraphics);
         g.drawImage(offsetScreen, 0, 0, null);
     }
 
     @Override
     public void paint(Graphics g) {
+        
         showInfo(g);
 
         if (mainTank.getLiving()) {
@@ -184,7 +184,7 @@ public class TankWarFrame extends Frame {
             if (mainTank.isCollideWith(bullet)) {
                 bullet.die();
                 mainTank.subLifeNumber();
-                if (mainTank.getLifeNumber() == 0) {
+                if (mainTank.getLifeNumber() == 0 && !GameController.GOD_ON) {
                     mainTank.die();
                     GameController.gameOver();
                 }
@@ -196,9 +196,10 @@ public class TankWarFrame extends Frame {
     private void showInfo(Graphics graphics) {
         Color color = graphics.getColor();
         graphics.setColor(Color.WHITE);
-        graphics.drawString("Bullet Num: " + bullets.size(),5, 35);
-        graphics.drawString("Tank  Num: " + hostileTanks.size(),5, 50);
-        graphics.drawString("MainTank Life: " + mainTank.getLifeNumber(),5, 65);
+        graphics.drawString("Bullet Num: " + bullets.size(),15, 45);
+        graphics.drawString("Tank  Num: " + hostileTanks.size(),15, 60);
+        graphics.drawString("MainTank Life: " + mainTank.getLifeNumber(),15, 75);
+        graphics.drawString("Killed Tank Num: " + mainTank.getKilledTankNumber(),15, 90);
         graphics.setColor(color);
     }
 

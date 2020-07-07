@@ -1,13 +1,11 @@
 package com.kerust.tankwar;
 
-import java.awt.*;
-
 public class GameController {
 
     public static final int BASE = 30;
 
-    /* 无敌模式，默认fasle */
-    public static final boolean GOD_ON = false;
+    /* 无敌模式，默认关闭 */
+    public static final boolean GOD_ON = true;
     public static final boolean ENABLE_SOUND = true;
 
     private static boolean isGameOver = false;
