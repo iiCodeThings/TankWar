@@ -34,6 +34,12 @@ public class Bullet {
         this.group = group;
         this.direction = direction;
         this.tankWarFrame = tankWarFrame;
+
+        if (group == Group.GOOD) {
+            new Audio("src/images/audio/good_bullet.wav").start();
+        } else {
+            new Audio("src/images/audio/bad_bullet.wav").start();
+        }
     }
 
     public void paint(Graphics graphics) {

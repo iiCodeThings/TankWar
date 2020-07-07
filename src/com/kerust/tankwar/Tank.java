@@ -96,6 +96,10 @@ public class Tank {
 
         if (group == Group.BAD) {
 
+            if (random.nextInt(1000) > 990) {
+                this.fire();
+            }
+
             if (pos_x < 0 || pos_y < 0 || pos_x > TankWarFrame.LAYOUT_WIDTH - TANK_WIDTH
                     || pos_y > TankWarFrame.LAYOUT_HEIGHT - TANK_HEIGHT || random.nextInt(100) > 95) {
                 /* 碰到边缘，或者走一会儿就随机改变方向 */
@@ -162,11 +166,6 @@ public class Tank {
                 break;
             default:
                 break;
-        }
-        if (group == Group.GOOD) {
-            //new Audio("src/images/audio/bullet_sound.wav").start();
-        } else {
-            //new Audio("src/images/audio/bullet_bad_sound.wav").start();
         }
     }
 

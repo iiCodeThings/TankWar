@@ -4,8 +4,9 @@ import java.awt.*;
 
 public class Explode {
 
-    public static final int WIDTH = ResourceMgr.explode[0].getWidth();
-    public static final int HEIGHT = ResourceMgr.explode[0].getHeight();
+    /* 选最大图片的长和宽 */
+    public static final int WIDTH = 256; //ResourceMgr.explode[0].getWidth();
+    public static final int HEIGHT = 256; //ResourceMgr.explode[0].getHeight();
 
     private int x = 0;
     private int y = 0;
@@ -16,7 +17,7 @@ public class Explode {
         this.x = x;
         this.y = y;
         this.tankWarFrame = tankWarFrame;
-        //new Audio("src/images/audio/explode.wav").start();
+        new Audio("src/images/audio/boom.wav").start();
     }
 
     public void explode(Graphics graphics) {
