@@ -26,7 +26,7 @@ public class GameController {
             }
         }
 
-        for (int i = 0; i < 100; i ++) {
+        for (int i = 0; i < 66; i ++) {
             tankWarFrame.repaint();
             try {
                 Thread.sleep(1000 / BASE);
@@ -35,6 +35,7 @@ public class GameController {
             }
         }
 
+        Sound.play_game_over_sound();
         tankWarFrame.gameOver();
     }
 
