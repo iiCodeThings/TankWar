@@ -16,6 +16,9 @@ public class TankWarFrame extends Frame {
     public static final int EXIT_SUCCESS = 0;
     public static int LAYOUT_WIDTH = 1920;
     public static int LAYOUT_HEIGHT = 1080;
+    public static int MAX_HOSTILE_TANK_NUM = 8;
+    public static int HOSTILE_TANK_ADD_STEP = 1;
+    public static int INIT_HOSTILE_TANK_NUM = 5;
     public static final String TANKWAR_TITLE = "Tank War";
 
     private Random random = new Random();
@@ -54,13 +57,11 @@ public class TankWarFrame extends Frame {
             }
         });
 
-        initTanks();
-        initAwards();
+        initHostileTanks();
     }
 
-    private void initTanks() {
-        int num = random.nextInt(5) + 3;
-        for (int i = 0; i < num; i ++) {
+    private void initHostileTanks() {
+        for (int i = 0; i < INIT_HOSTILE_TANK_NUM; i ++) {
             Point point = new Point().getRandomPoint();
             Tank tank = new Tank(point.x, point.y, Group.BAD, this);
             tank.setMoving(true);
@@ -68,8 +69,17 @@ public class TankWarFrame extends Frame {
         }
     }
 
-    private void initAwards() {
-        Award mine = new Award(100, 100, Award.Type.MINE, this);
+    private void addHostileTanks() {
+
+        if (hostileTanks.size() >= MAX_HOSTILE_TANK_NUM) {
+            return;
+        }
+        for (int i = 0; i < HOSTILE_TANK_ADD_STEP; i ++) {
+            Point point = new Point().getRandomPoint();
+            Tank tank = new Tank(point.x, point.y, Group.BAD, this);
+            tank.setMoving(true);
+            hostileTanks.add(tank);
+        }
     }
 
     public void addAward(Award award) {
@@ -253,7 +263,7 @@ public class TankWarFrame extends Frame {
                     mainTank.fire();
                     break;
                 case KeyEvent.VK_5:
-                    initTanks();
+                    addHostileTanks();
                     break;
                 case KeyEvent.VK_P:
                     for (int i = 0; i < hostileTanks.size(); i ++) {

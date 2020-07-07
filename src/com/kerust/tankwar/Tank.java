@@ -25,8 +25,8 @@ public class Tank {
         this.pos_x = pos_x;
         this.pos_y = pos_y;
         this.group = group;
-        awardType = Award.Type.STAR;
         this.tankWarFrame = tankWarFrame;
+        awardType = Award.getRandomAwardType();
     }
 
     public int getX() {

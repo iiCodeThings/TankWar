@@ -1,6 +1,7 @@
 package com.kerust.tankwar;
 
 import java.awt.*;
+import java.util.Random;
 
 /* 生成随机奖励 */
 public class Award {
@@ -8,12 +9,13 @@ public class Award {
     public static final int WIDTH = ResourceMgr.mines[0].getWidth();
     public static final int HEIGHT = ResourceMgr.mines[0].getHeight();
 
+    int step = 0;
     private int x = 0;
     private int y = 0;
     Type type = Type.MINE;
-    int step = 0;
     private boolean isLiving = true;
-    private TankWarFrame tankWarFrame;
+    private static Random random = new Random();
+    private TankWarFrame tankWarFrame = null;
 
     public Award(int x, int y, Type type, TankWarFrame tankWarFrame) {
         this.x = x;
@@ -40,6 +42,20 @@ public class Award {
         return 0;
     }
 
+    public static Type getRandomAwardType() {
+        /* 50%的坦克没有奖励 */
+        /* 30%的坦克有星星奖励 */
+        /* 20%的坦克有地雷奖励 */
+        int num = random.nextInt(100);
+        if (num >= 0 && num <= 49) {
+            return Type.NONE;
+        } else if (num >= 50 && num <= 79) {
+            return Type.STAR;
+        } else if (num >= 80 && num <= 99) {
+            return Type.MINE;
+        }
+        return Type.NONE;
+    }
     public Type getType() {
         return this.type;
     }
@@ -53,6 +69,10 @@ public class Award {
     }
 
     public void paint(Graphics graphics) {
+
+        if (this.type == Type.NONE) {
+            return;
+        }
 
         if (! isLiving) {
             this.tankWarFrame.removeAward(this);
@@ -76,6 +96,7 @@ public class Award {
     }
 
     enum Type {
+        NONE, /* 无任何奖励 */
         STAR, /* 吃了武器会变厉害 */
         MINE /* 地雷： 吃了会炸掉屏幕上所有敌方坦克 */
     }
