@@ -11,7 +11,9 @@ import java.util.List;
 import java.util.Random;
 
 public class TankWarFrame extends Frame {
-    
+
+    /* 游戏刷新时间：30FPS */
+    public static final int BASE = 30;
     public static final int EXIT_SUCCESS = 0;
     public static int LAYOUT_WIDTH = 1920;
     public static int LAYOUT_HEIGHT = 1080;
@@ -21,6 +23,11 @@ public class TankWarFrame extends Frame {
     public static final String TANK_WAR_TITLE = "Tank War";
 
     private Random random = new Random();
+
+    /* 无敌模式，默认关闭 */
+    private boolean isGodOn = false;
+
+    private boolean isGameOver = false;
 
     private Image offsetScreen = null;
 
@@ -44,6 +51,7 @@ public class TankWarFrame extends Frame {
         LAYOUT_WIDTH = (int)(dimension.getWidth() * 0.9);
         LAYOUT_HEIGHT = (int)(dimension.getHeight() * 0.9);
     }
+
     public TankWarFrame() {
         this.setVisible(true);
         this.setResizable(false);
@@ -58,6 +66,10 @@ public class TankWarFrame extends Frame {
         });
 
         initHostileTanks();
+    }
+
+    private void setGameOver() {
+        isGameOver = true;
     }
 
     private void initHostileTanks() {
@@ -106,6 +118,21 @@ public class TankWarFrame extends Frame {
         this.explodes.remove(explode);
     }
 
+    public void loop() {
+
+        while(! isGameOver) {
+            this.repaint();
+            try {
+                Thread.sleep(1000 / BASE);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+
+        showGameOverDialog();
+        Sound.play_game_over_sound();
+    }
+
     @Override
     public void update(Graphics g) {
         if (offsetScreen == null) {
@@ -142,6 +169,7 @@ public class TankWarFrame extends Frame {
         for (int i = 0; i < awards.size(); i ++) {
             awards.get(i).paint(g);
         }
+
         for (int i = 0; i < hostileTanks.size(); i ++) {
             Tank tank = hostileTanks.get(i);
             for (int j = 0; j < bullets.size(); j ++) {
@@ -155,6 +183,7 @@ public class TankWarFrame extends Frame {
                 }
             }
         }
+
         /* 主战坦克吃奖励判断 */
         for (int i = 0; i < awards.size(); i ++) {
             Award award = awards.get(i);
@@ -184,9 +213,9 @@ public class TankWarFrame extends Frame {
             if (mainTank.isCollideWith(bullet)) {
                 bullet.die();
                 mainTank.subLifeNumber();
-                if (mainTank.getLifeNumber() == 0 && !GameController.GOD_ON) {
+                if (mainTank.getLifeNumber() == 0 && ! isGodOn) {
                     mainTank.die();
-                    GameController.gameOver();
+                    this.setGameOver();
                 }
                 addExplode(new Explode(mainTank.getX(), mainTank.getY(), this));
             }
@@ -211,7 +240,7 @@ public class TankWarFrame extends Frame {
         bullets.remove(bullet);
     }
 
-    public void gameOver() {
+    public void showGameOverDialog() {
         JOptionPane.showMessageDialog(null,
                 "Game Over!","game over",JOptionPane.ERROR_MESSAGE);
     }
@@ -292,10 +321,8 @@ public class TankWarFrame extends Frame {
                     addHostileTanks();
                     break;
                 case KeyEvent.VK_P:
-                    for (int i = 0; i < hostileTanks.size(); i ++) {
-                        Tank tank = hostileTanks.get(i);
-                        tank.setMoving(! tank.getMoving());
-                    }
+                    this.pause();
+                    break;
                 default:
                     break;
             }
@@ -308,6 +335,14 @@ public class TankWarFrame extends Frame {
                 if (bUp) mainTank.setDirection(Direction.UP);
                 if (bRight) mainTank.setDirection(Direction.RIGHT);
                 if (bDown) mainTank.setDirection(Direction.DOWN);
+            }
+        }
+
+        private void pause() {
+            mainTank.setMoving(! mainTank.getMoving());
+            for (int i = 0; i < hostileTanks.size(); i ++) {
+                Tank tank = hostileTanks.get(i);
+                tank.setMoving(! tank.getMoving());
             }
         }
     }

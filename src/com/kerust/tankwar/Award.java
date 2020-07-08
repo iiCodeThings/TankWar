@@ -87,7 +87,7 @@ public class Award {
             return;
         }
 
-        if (step++ > 8 * GameController.BASE) {
+        if (step++ > 8 * tankWarFrame.BASE) {
             this.tankWarFrame.removeAward(this);
             return;
         }
