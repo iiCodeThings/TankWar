@@ -6,9 +6,6 @@ import java.util.Random;
 /* 生成随机奖励 */
 public class Award {
 
-    public static final int WIDTH = ResourceMgr.mines[0].getWidth();
-    public static final int HEIGHT = ResourceMgr.mines[0].getHeight();
-
     int step = 0;
     private int x = 0;
     private int y = 0;
@@ -87,17 +84,18 @@ public class Award {
             return;
         }
 
-        if (step++ > 8 * tankWarFrame.BASE) {
+        /* 奖励大概停留8s后自动消失 */
+        if (step > 8 * tankWarFrame.BASE) {
             this.tankWarFrame.removeAward(this);
             return;
         }
 
         if (this.type == Type.MINE) {
-            graphics.drawImage(ResourceMgr.mines[step % ResourceMgr.mines.length], this.x, this.y, null);
+            graphics.drawImage(ResourceMgr.mines[step++ % ResourceMgr.mines.length], this.x, this.y, null);
         } else if (this.type == Type.STAR) {
-            graphics.drawImage(ResourceMgr.stars[step % ResourceMgr.stars.length], this.x, this.y, null);
+            graphics.drawImage(ResourceMgr.stars[step++ % ResourceMgr.stars.length], this.x, this.y, null);
         } else if (this.type == Type.TANK) {
-            graphics.drawImage(ResourceMgr.awardTanks[step % ResourceMgr.awardTanks.length], this.x, this.y, null);
+            graphics.drawImage(ResourceMgr.awardTanks[step++ % ResourceMgr.awardTanks.length], this.x, this.y, null);
         }
     }
 
