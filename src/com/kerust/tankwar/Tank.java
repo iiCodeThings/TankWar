@@ -55,6 +55,10 @@ public class Tank {
         }
     }
 
+    public void setLifeNumber(int lifeNumber) {
+        this.lifeNumber = lifeNumber;
+    }
+
     public int getKilledTankNumber() {
         return killedTankNumber;
     }
@@ -225,5 +229,9 @@ public class Tank {
 
     public boolean getLiving() {
         return isLiving;
+    }
+
+    public void setLiving(boolean living) {
+        isLiving = living;
     }
 }

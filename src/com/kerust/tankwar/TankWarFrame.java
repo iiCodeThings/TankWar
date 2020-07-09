@@ -1,11 +1,10 @@
 package com.kerust.tankwar;
 
+import com.kerust.tankwar.net.Client;
+
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
+import java.awt.event.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -29,6 +28,9 @@ public class TankWarFrame extends Frame {
 
     private boolean isGameOver = false;
 
+    /* 游戏是否暂停（按下了暂停键）*/
+    private boolean isPause = false;
+
     private Image offsetScreen = null;
 
     /* 爆炸效果 */
@@ -46,16 +48,19 @@ public class TankWarFrame extends Frame {
     /* 奖励 */
     private List<Award> awards = new ArrayList<>();
 
+    private static Client client = new Client();
+
     static {
         Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
-        LAYOUT_WIDTH = (int)(dimension.getWidth() * 0.9);
-        LAYOUT_HEIGHT = (int)(dimension.getHeight() * 0.9);
+        LAYOUT_WIDTH = (int)dimension.getWidth();
+        LAYOUT_HEIGHT = (int)dimension.getHeight();
     }
 
     public TankWarFrame() {
         this.setVisible(true);
         this.setResizable(false);
         this.setTitle(TANK_WAR_TITLE);
+        this.setMenuBar(initMenuBar());
         this.setSize(LAYOUT_WIDTH, LAYOUT_HEIGHT);
         this.addKeyListener(new MyKeyListener());
         this.addWindowListener(new WindowAdapter() {
@@ -66,6 +71,27 @@ public class TankWarFrame extends Frame {
         });
 
         initHostileTanks();
+    }
+
+    private MenuBar initMenuBar() {
+
+        MenuBar menuBar = new MenuBar();
+        Menu menu = new Menu("Game");
+        MenuItem menuItemRestart = new MenuItem("Restart");
+
+        menuItemRestart.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                isGameOver = false;
+                mainTank.setLiving(true);
+                mainTank.setLifeNumber(3);
+            }
+        });
+
+        menu.add(menuItemRestart);
+        menuBar.add(menu);
+
+        return menuBar;
     }
 
     private void setGameOver() {
@@ -120,17 +146,18 @@ public class TankWarFrame extends Frame {
 
     public void loop() {
 
-        while(! isGameOver) {
-            this.repaint();
+        while(true) {
+
+            if (! isPause && ! isGameOver) {
+                this.repaint();
+            }
+
             try {
                 Thread.sleep(1000 / BASE);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
         }
-
-        showGameOverDialog();
-        Sound.play_game_over_sound();
     }
 
     @Override
@@ -323,6 +350,8 @@ public class TankWarFrame extends Frame {
                 case KeyEvent.VK_P:
                     this.pause();
                     break;
+                case KeyEvent.VK_ENTER:
+                    this.restartGame();
                 default:
                     break;
             }
@@ -338,12 +367,13 @@ public class TankWarFrame extends Frame {
             }
         }
 
+        private void restartGame() {
+            isGameOver = false;
+        }
+
         private void pause() {
-            mainTank.setMoving(! mainTank.getMoving());
-            for (int i = 0; i < hostileTanks.size(); i ++) {
-                Tank tank = hostileTanks.get(i);
-                tank.setMoving(! tank.getMoving());
-            }
+            isPause = ! isPause;
+            Sound.play_award_sound();
         }
     }
 }
