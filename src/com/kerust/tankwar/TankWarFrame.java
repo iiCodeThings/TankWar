@@ -1,7 +1,5 @@
 package com.kerust.tankwar;
 
-import com.kerust.tankwar.net.Client;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -47,8 +45,6 @@ public class TankWarFrame extends Frame {
 
     /* 奖励 */
     private List<Award> awards = new ArrayList<>();
-
-    private static Client client = new Client();
 
     static {
         Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
