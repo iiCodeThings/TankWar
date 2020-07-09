@@ -12,12 +12,12 @@ public class Tank {
     private int pos_x = 0;
     private int pos_y = 0;
     private Group group = Group.BAD;
-    private boolean isMoving = false;
     private boolean isLiving = true;
+    private boolean isMoving = false;
 
+    private Random random = new Random();
     private TankWarFrame tankWarFrame = null;
     private Direction direction = Direction.RIGHT;
-    private Random random = new Random();
 
     /* 杀死的坦克数量*/
     private static int killedTankNumber = 0;
@@ -173,6 +173,7 @@ public class Tank {
     }
 
     public void die() {
+        isMoving = false;
         isLiving = false;
         if (group == Group.BAD) {
             killedTankNumber += 1;
@@ -188,6 +189,10 @@ public class Tank {
     public void fireEverywhere() {
         int x, y;
 
+        if (! isLiving) {
+            return;
+        }
+
         x = this.pos_x + TANK_WIDTH / 2 - Bullet.BULLET_WIDTH / 2;
         y = this.pos_y + TANK_HEIGHT / 2 - Bullet.BULLET_HEIGHT / 2;
         this.tankWarFrame.addBullet(new Bullet(x, y, Direction.LEFT, this.group, this.tankWarFrame));
@@ -202,6 +207,10 @@ public class Tank {
     public void fire() {
 
         int x, y;
+
+        if (! isLiving) {
+            return;
+        }
 
         switch (direction) {
             case LEFT:

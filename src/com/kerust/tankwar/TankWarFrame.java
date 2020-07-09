@@ -24,8 +24,6 @@ public class TankWarFrame extends Frame {
     /* 无敌模式，默认关闭 */
     private boolean isGodOn = false;
 
-    private boolean isGameOver = false;
-
     /* 游戏是否暂停（按下了暂停键）*/
     private boolean isPause = false;
 
@@ -78,7 +76,6 @@ public class TankWarFrame extends Frame {
         menuItemRestart.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                isGameOver = false;
                 mainTank.setLiving(true);
                 mainTank.setLifeNumber(3);
             }
@@ -88,10 +85,6 @@ public class TankWarFrame extends Frame {
         menuBar.add(menu);
 
         return menuBar;
-    }
-
-    private void setGameOver() {
-        isGameOver = true;
     }
 
     private void initHostileTanks() {
@@ -140,11 +133,16 @@ public class TankWarFrame extends Frame {
         this.explodes.remove(explode);
     }
 
+    public void pause() {
+        isPause = ! isPause;
+        Sound.play_award_sound();
+    }
+
     public void loop() {
 
         while(true) {
 
-            if (! isPause && ! isGameOver) {
+            if (! isPause) {
                 this.repaint();
             }
 
@@ -233,12 +231,12 @@ public class TankWarFrame extends Frame {
         /* 是否被敌方子弹击中 */
         for (int i = 0; i < bullets.size(); i ++) {
             Bullet bullet = bullets.get(i);
-            if (mainTank.isCollideWith(bullet)) {
+            if (mainTank.getLiving() && mainTank.isCollideWith(bullet)) {
                 bullet.die();
                 mainTank.subLifeNumber();
                 if (mainTank.getLifeNumber() == 0 && ! isGodOn) {
                     mainTank.die();
-                    this.setGameOver();
+                    Sound.play_game_over_sound();
                 }
                 addExplode(new Explode(mainTank.getX(), mainTank.getY(), this));
             }
@@ -261,11 +259,6 @@ public class TankWarFrame extends Frame {
 
     public void removeBullet(Bullet bullet) {
         bullets.remove(bullet);
-    }
-
-    public void showGameOverDialog() {
-        JOptionPane.showMessageDialog(null,
-                "Game Over!","game over",JOptionPane.ERROR_MESSAGE);
     }
 
     class Point {
@@ -344,10 +337,8 @@ public class TankWarFrame extends Frame {
                     addHostileTanks();
                     break;
                 case KeyEvent.VK_P:
-                    this.pause();
+                    pause();
                     break;
-                case KeyEvent.VK_ENTER:
-                    this.restartGame();
                 default:
                     break;
             }
@@ -361,15 +352,6 @@ public class TankWarFrame extends Frame {
                 if (bRight) mainTank.setDirection(Direction.RIGHT);
                 if (bDown) mainTank.setDirection(Direction.DOWN);
             }
-        }
-
-        private void restartGame() {
-            isGameOver = false;
-        }
-
-        private void pause() {
-            isPause = ! isPause;
-            Sound.play_award_sound();
         }
     }
 }
