@@ -37,6 +37,14 @@ public class Tank {
         this.lifeNumber = 3; //(group == Group.GOOD? 3 : 1);
     }
 
+    public int getWidth() {
+        return TANK_WIDTH;
+    }
+
+    public int getHeight() {
+        return TANK_HEIGHT;
+    }
+
     public int getX() {
         return pos_x;
     }
@@ -187,47 +195,23 @@ public class Tank {
     public boolean getMoving() { return this.isMoving; }
 
     public void fireEverywhere() {
-        int x, y;
 
         if (! isLiving) {
             return;
         }
 
-        x = this.pos_x + TANK_WIDTH / 2;
-        y = this.pos_y + TANK_HEIGHT / 2;
-        this.tankWarFrame.addBullet(new KLBullet(x, y, Direction.LEFT, this.group, this.tankWarFrame));
-        this.tankWarFrame.addBullet(new KLBullet(x, y, Direction.RIGHT, this.group, this.tankWarFrame));
-
-        x = this.pos_x + TANK_WIDTH / 2;
-        y = this.pos_y + TANK_HEIGHT / 2;
-        this.tankWarFrame.addBullet(new KLBullet(x, y, Direction.UP, this.group, this.tankWarFrame));
-        this.tankWarFrame.addBullet(new KLBullet(x, y, Direction.DOWN, this.group, this.tankWarFrame));
+        for (int i = 0; i < Direction.values().length; i ++) {
+            this.tankWarFrame.addBullet(new KLBullet(this.pos_x, this.pos_y, Direction.values()[i], this.group, this, this.tankWarFrame));
+        }
     }
 
     public void fire() {
 
-        int x, y;
-
         if (! isLiving) {
             return;
         }
 
-        switch (direction) {
-            case LEFT:
-            case RIGHT:
-                x = this.pos_x + TANK_WIDTH / 2;
-                y = this.pos_y + TANK_HEIGHT / 2;
-                this.tankWarFrame.addBullet(new KLBullet(x, y, this.direction, this.group, this.tankWarFrame));
-                break;
-            case UP:
-            case DOWN:
-                x = this.pos_x + TANK_WIDTH / 2;
-                y = this.pos_y + TANK_HEIGHT / 2;
-                this.tankWarFrame.addBullet(new KLBullet(x, y, this.direction, this.group, this.tankWarFrame));
-                break;
-            default:
-                break;
-        }
+        this.tankWarFrame.addBullet(new Missile(this.pos_x, this.pos_y, this.direction, this.group, this, this.tankWarFrame));
     }
 
     public boolean isCollideWith(Award award) {

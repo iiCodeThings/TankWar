@@ -9,6 +9,7 @@ public class KLBullet implements Bullet {
     private static final int BULLET_HEIGHT = ResourceMgr.kl_bullets[0].getHeight();
 
     private int pos_x = 0;
+    private Tank tank = null;
     private Group group = Group.BAD;
     private boolean isLiving = true;
 
@@ -38,21 +39,22 @@ public class KLBullet implements Bullet {
     private TankWarFrame tankWarFrame = null;
     private Direction direction = Direction.RIGHT;
 
-    public KLBullet(int pos_x, int pos_y, Direction direction, Group group, TankWarFrame tankWarFrame) {
+    public KLBullet(int pos_x, int pos_y, Direction direction, Group group, Tank tank, TankWarFrame tankWarFrame) {
 
+        this.tank = tank;
         this.group = group;
         this.direction = direction;
 
         switch (direction) {
             case LEFT:
             case RIGHT:
-                this.pos_x = pos_x - BULLET_WIDTH / 2;
-                this.pos_y = pos_y - BULLET_HEIGHT / 2;
+                this.pos_x = pos_x + tank.getWidth() / 2 - BULLET_WIDTH / 2;
+                this.pos_y = pos_y + tank.getHeight() / 2 - BULLET_HEIGHT / 2;
                 break;
             case UP:
             case DOWN:
-                this.pos_x = pos_x - BULLET_HEIGHT / 2;
-                this.pos_y = pos_y - BULLET_WIDTH / 2;
+                this.pos_x = pos_x + tank.getWidth() / 2 - BULLET_HEIGHT / 2;
+                this.pos_y = pos_y + tank.getHeight() / 2 - BULLET_WIDTH / 2;
                 break;
             default:
                 break;

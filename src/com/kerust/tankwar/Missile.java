@@ -10,6 +10,7 @@ public class Missile implements Bullet{
 
     private int pos_x = 0;
     private int pos_y = 0;
+    private Tank tank = null;
     private Group group = Group.BAD;
     private boolean isLiving = true;
 
@@ -38,12 +39,27 @@ public class Missile implements Bullet{
     private TankWarFrame tankWarFrame = null;
     private Direction direction = Direction.RIGHT;
 
-    public Missile(int pos_x, int pos_y, Direction direction, Group group, TankWarFrame tankWarFrame) {
-        this.pos_x = pos_x;
-        this.pos_y = pos_y;
+    public Missile(int pos_x, int pos_y, Direction direction, Group group, Tank tank, TankWarFrame tankWarFrame) {
+
+        this.tank = tank;
         this.group = group;
         this.direction = direction;
         this.tankWarFrame = tankWarFrame;
+
+        switch (direction) {
+            case LEFT:
+            case RIGHT:
+                this.pos_x = pos_x + tank.getWidth() / 2 - BULLET_WIDTH / 2;
+                this.pos_y = pos_y + tank.getHeight() / 2 - BULLET_HEIGHT / 2;
+                break;
+            case UP:
+            case DOWN:
+                this.pos_x = pos_x + tank.getWidth() / 2 - BULLET_HEIGHT / 2;
+                this.pos_y = pos_y + tank.getHeight() / 2 - BULLET_WIDTH / 2;
+                break;
+            default:
+                break;
+        }
 
         if (group == Group.GOOD) {
             Sound.play_good_bullet_sound();
