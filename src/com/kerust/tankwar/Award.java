@@ -11,8 +11,8 @@ public class Award {
     private int y = 0;
     Type type = Type.MINE;
     private boolean isLiving = true;
-    private static Random random = new Random();
     private TankWarFrame tankWarFrame = null;
+    private static Random random = new Random();
 
     public Award(int x, int y, Type type, TankWarFrame tankWarFrame) {
         this.x = x;
@@ -28,6 +28,8 @@ public class Award {
             return ResourceMgr.mines[0].getWidth();
         } else if (type == Type.TANK) {
             return ResourceMgr.awardTanks[0].getWidth();
+        } else if (type == Type.KL) {
+            return ResourceMgr.kl[0].getWidth();
         }
         return 0;
     }
@@ -39,18 +41,23 @@ public class Award {
             return ResourceMgr.mines[0].getHeight();
         } else if (type == Type.TANK) {
             return ResourceMgr.awardTanks[0].getHeight();
+        } else if (type == Type.KL) {
+            return ResourceMgr.kl[0].getHeight();
         }
         return 0;
     }
 
     public static Type getRandomAwardType() {
+        if (true) return Type.KL;
         /* 50%的坦克没有奖励 */
         /* 30%的坦克有星星奖励 */
         /* 10%的坦克有地雷奖励 */
         /* 10%的坦克有加命奖励 */
         int num = random.nextInt(100);
-        if (num >= 0 && num <= 49) {
+        if (num >= 0 && num <= 39) {
             return Type.NONE;
+        } else if (num >= 40 && num<= 49) {
+            return Type.KL;
         } else if (num >= 50 && num <= 79) {
             return Type.STAR;
         } else if (num >= 80 && num <= 89) {
@@ -96,6 +103,8 @@ public class Award {
             graphics.drawImage(ResourceMgr.stars[step++ % ResourceMgr.stars.length], this.x, this.y, null);
         } else if (this.type == Type.TANK) {
             graphics.drawImage(ResourceMgr.awardTanks[step++ % ResourceMgr.awardTanks.length], this.x, this.y, null);
+        } else if (this.type == Type.KL) {
+            graphics.drawImage(ResourceMgr.kl[step++ % ResourceMgr.kl.length], this.x, this.y, null);
         }
     }
 
@@ -107,6 +116,7 @@ public class Award {
         NONE, /* 无任何奖励 */
         STAR, /* 吃了武器会变厉害 */
         MINE, /* 地雷： 吃了会炸掉屏幕上所有敌方坦克 */
-        TANK /* 吃了增加一条命 */
+        TANK, /* 吃了增加一条命 */
+        KL /* 吃了会发射恐龙子弹 */
     }
 }

@@ -9,6 +9,9 @@ public class ResourceMgr {
     /* 子弹 */
     public static BufferedImage[] bullets = new BufferedImage[4];
 
+    /* 子弹奖励 */
+    public static BufferedImage[] kl_bullets = new BufferedImage[4];
+
     /* 主战坦克 */
     public static BufferedImage[] mainTanks = new BufferedImage[4];
 
@@ -27,11 +30,19 @@ public class ResourceMgr {
     /* 奖励一条命 */
     public static BufferedImage[] awardTanks = new BufferedImage[21];
 
+    /* 恐龙子弹奖励 */
+    public static BufferedImage[] kl = new BufferedImage[21];
+
     static {
         try {
             for (int i = 0; i < bullets.length; i ++) {
                 String path = "images/bullet/bullet" + i + ".png";
                 bullets[i] = ImageIO.read(ResourceMgr.class.getClassLoader().getResourceAsStream(path));
+            }
+
+            for (int i = 0; i < kl_bullets.length; i ++) {
+                String path = "images/bullet/kl" + i + ".png";
+                kl_bullets[i] = ImageIO.read(ResourceMgr.class.getClassLoader().getResourceAsStream(path));
             }
 
             for (int i = 0; i < mainTanks.length; i ++) {
@@ -62,6 +73,11 @@ public class ResourceMgr {
             for (int i = 0; i < awardTanks.length; i ++) {
                 String path = "images/new/new_tank" + i + ".png";
                 awardTanks[i] = ImageIO.read(ResourceMgr.class.getClassLoader().getResourceAsStream(path));
+            }
+
+            for (int i = 0; i < kl.length; i ++) {
+                String path = "images/kl/kl" + i + ".png";
+                kl[i] = ImageIO.read(ResourceMgr.class.getClassLoader().getResourceAsStream(path));
             }
 
         } catch (IOException e) {
