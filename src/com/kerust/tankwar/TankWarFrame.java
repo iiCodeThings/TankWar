@@ -166,6 +166,30 @@ public class TankWarFrame extends Frame {
         g.drawImage(offsetScreen, 0, 0, null);
     }
 
+    public Award getAwardByTank(Tank tank) {
+
+        Award award = null;
+
+        switch (tank.getAwardType()) {
+            case STAR:
+                award = new StarAward(tank.getX(), tank.getY(), this);
+                break;
+            case MINE:
+                award = new MineAward(tank.getX(), tank.getY(), this);
+                break;
+            case KL:
+                award = new KLAward(tank.getX(), tank.getY(), this);
+                break;
+            case TANK:
+                award = new TankAward(tank.getX(), tank.getY(), this);
+                break;
+            default:
+                break;
+        }
+
+        return award;
+    }
+
     @Override
     public void paint(Graphics g) {
         
@@ -199,7 +223,7 @@ public class TankWarFrame extends Frame {
                     tank.die();
                     bullet.die();
                     addExplode(new Explode(tank.getX(), tank.getY(), this));
-                    addAward(new Award(tank.getX(), tank.getY(), tank.getAwardType(), this));
+                    addAward(this.getAwardByTank(tank));
                     return;
                 }
             }
@@ -224,6 +248,8 @@ public class TankWarFrame extends Frame {
                 } else if (award.getType() == Award.Type.TANK) {
                     /* 成功吃掉会增加一条命 */
                     mainTank.addLifeNumber();
+                } else if (award.getType() == Award.Type.KL) {
+                    mainTank.eatAwardList(award);
                 }
             }
         }

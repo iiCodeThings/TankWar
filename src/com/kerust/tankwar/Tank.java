@@ -1,6 +1,8 @@
 package com.kerust.tankwar;
 
 import java.awt.*;
+import java.util.List;
+import java.util.ArrayList;
 import java.util.Random;
 
 public class Tank {
@@ -18,6 +20,9 @@ public class Tank {
     private Random random = new Random();
     private TankWarFrame tankWarFrame = null;
     private Direction direction = Direction.RIGHT;
+
+    /* 记录吃到的奖励 */
+    private List<Award> awardList = new ArrayList<>();
 
     /* 杀死的坦克数量*/
     private static int killedTankNumber = 0;
@@ -183,6 +188,7 @@ public class Tank {
     public void die() {
         isMoving = false;
         isLiving = false;
+        awardList.clear();
         if (group == Group.BAD) {
             killedTankNumber += 1;
         }
@@ -201,7 +207,7 @@ public class Tank {
         }
 
         for (int i = 0; i < Direction.values().length; i ++) {
-            this.tankWarFrame.addBullet(new KLBullet(this.pos_x, this.pos_y, Direction.values()[i], this.group, this, this.tankWarFrame));
+            this.tankWarFrame.addBullet(new Missile(this.pos_x, this.pos_y, Direction.values()[i], this.group, this, this.tankWarFrame));
         }
     }
 
@@ -211,7 +217,25 @@ public class Tank {
             return;
         }
 
-        this.tankWarFrame.addBullet(new Missile(this.pos_x, this.pos_y, this.direction, this.group, this, this.tankWarFrame));
+        if (group == Group.BAD) {
+            this.tankWarFrame.addBullet(new Missile(this.pos_x, this.pos_y, this.direction, this.group, this, this.tankWarFrame));
+        } else {
+            if (awardList.size() > 0) {
+                for (int i = 0; i < awardList.size(); i++) {
+                    Award award = awardList.get(i);
+                    switch (award.getType()) {
+                        case KL:
+                            this.tankWarFrame.addBullet(new KLBullet(this.pos_x, this.pos_y, this.direction, this.group, this, this.tankWarFrame));
+                            break;
+                        default:
+                            this.tankWarFrame.addBullet(new Missile(this.pos_x, this.pos_y, this.direction, this.group, this, this.tankWarFrame));
+                            break;
+                    }
+                }
+            } else {
+                this.tankWarFrame.addBullet(new Missile(this.pos_x, this.pos_y, this.direction, this.group, this, this.tankWarFrame));
+            }
+        }
     }
 
     public boolean isCollideWith(Award award) {
@@ -226,5 +250,13 @@ public class Tank {
 
     public void setLiving(boolean living) {
         isLiving = living;
+    }
+
+    public void eatAwardList(Award award) {
+        this.awardList.add(award);
+    }
+
+    public List<Award> getEatAwardList() {
+        return this.awardList;
     }
 }
