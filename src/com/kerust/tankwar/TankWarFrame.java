@@ -22,7 +22,7 @@ public class TankWarFrame extends Frame {
     private Random random = new Random();
 
     /* 无敌模式，默认关闭 */
-    private boolean isGodOn = false;
+    private boolean isGodOn = true;
 
     /* 游戏是否暂停（按下了暂停键）*/
     private boolean isPause = false;

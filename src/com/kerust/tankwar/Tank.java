@@ -63,6 +63,7 @@ public class Tank {
     }
 
     public void subLifeNumber() {
+        awardList.clear();
         if (this.lifeNumber > 0) {
             this.lifeNumber -= 1;
         }
@@ -188,7 +189,6 @@ public class Tank {
     public void die() {
         isMoving = false;
         isLiving = false;
-        awardList.clear();
         if (group == Group.BAD) {
             killedTankNumber += 1;
         }

@@ -29,8 +29,8 @@ public interface Award {
     }
 
     public static Type getRandomAwardType() {
-        if (true) return Type.KL;
-        /* 50%的坦克没有奖励 */
+        /* 40%的坦克没有奖励 */
+        /* 10%的坦克有恐龙子弹奖励 */
         /* 30%的坦克有星星奖励 */
         /* 10%的坦克有地雷奖励 */
         /* 10%的坦克有加命奖励 */
