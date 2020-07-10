@@ -66,11 +66,7 @@ public class Bullet implements Weapon{
                 break;
         }
 
-        if (group == Group.GOOD) {
-            Sound.play_good_bullet_sound();
-        } else {
-            Sound.play_bad_bullet_sound();
-        }
+        Sound.play_bullet_sound();
     }
 
     public void paint(Graphics graphics) {

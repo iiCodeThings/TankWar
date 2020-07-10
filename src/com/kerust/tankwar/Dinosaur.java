@@ -45,6 +45,7 @@ public class Dinosaur implements Weapon {
         this.tank = tank;
         this.group = group;
         this.direction = direction;
+        this.tankWarFrame = tankWarFrame;
 
         switch (direction) {
             case LEFT:
@@ -60,13 +61,8 @@ public class Dinosaur implements Weapon {
             default:
                 break;
         }
-        this.tankWarFrame = tankWarFrame;
 
-        if (group == Group.GOOD) {
-            Sound.play_good_bullet_sound();
-        } else {
-            Sound.play_bad_bullet_sound();
-        }
+        Sound.play_missile_sound();
     }
 
     public void paint(Graphics graphics) {

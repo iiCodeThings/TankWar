@@ -206,7 +206,7 @@ public class Tank {
         }
 
         if (group == Group.BAD) {
-            this.tankWarFrame.addBullet(new Missile(this.pos_x, this.pos_y, this.direction, this.group, this, this.tankWarFrame));
+            this.tankWarFrame.addBullet(new Bullet(this.pos_x, this.pos_y, this.direction, this.group, this, this.tankWarFrame));
         } else {
 
             switch (this.weaponType) {
