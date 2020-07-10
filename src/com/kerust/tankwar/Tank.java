@@ -1,8 +1,6 @@
 package com.kerust.tankwar;
 
 import java.awt.*;
-import java.util.List;
-import java.util.ArrayList;
 import java.util.Random;
 
 public class Tank {
@@ -21,8 +19,7 @@ public class Tank {
     private TankWarFrame tankWarFrame = null;
     private Direction direction = Direction.RIGHT;
 
-    /* 记录吃到的奖励 */
-    private List<Award> awardList = new ArrayList<>();
+    private Weapon.Type weaponType = Weapon.Type.BULLET;
 
     /* 杀死的坦克数量*/
     private static int killedTankNumber = 0;
@@ -62,8 +59,9 @@ public class Tank {
         this.lifeNumber += 1;
     }
 
+    public void setWeaponType(Weapon.Type weaponType) { this.weaponType = weaponType; }
+
     public void subLifeNumber() {
-        awardList.clear();
         if (this.lifeNumber > 0) {
             this.lifeNumber -= 1;
         }
@@ -175,20 +173,21 @@ public class Tank {
         if (pos_y > TankWarFrame.LAYOUT_HEIGHT - TANK_HEIGHT) pos_y = TankWarFrame.LAYOUT_HEIGHT - TANK_HEIGHT;
     }
 
-    public boolean isCollideWith(Bullet bullet) {
+    public boolean isCollideWith(Weapon weapon) {
 
-        if (this.group == bullet.getGroup()) {
+        if (this.group == weapon.getGroup()) {
             return false;
         }
 
         Rectangle tankRect = new Rectangle(this.pos_x, this.pos_y, TANK_WIDTH, TANK_HEIGHT);
-        Rectangle bulletRect = new Rectangle(bullet.getX(), bullet.getY(), bullet.getWidth(), bullet.getHeight());
+        Rectangle bulletRect = new Rectangle(weapon.getX(), weapon.getY(), weapon.getWidth(), weapon.getHeight());
         return tankRect.intersects(bulletRect);
     }
 
     public void die() {
         isMoving = false;
         isLiving = false;
+        weaponType = Weapon.Type.BULLET;
         if (group == Group.BAD) {
             killedTankNumber += 1;
         }
@@ -220,20 +219,19 @@ public class Tank {
         if (group == Group.BAD) {
             this.tankWarFrame.addBullet(new Missile(this.pos_x, this.pos_y, this.direction, this.group, this, this.tankWarFrame));
         } else {
-            if (awardList.size() > 0) {
-                for (int i = 0; i < awardList.size(); i++) {
-                    Award award = awardList.get(i);
-                    switch (award.getType()) {
-                        case KL:
-                            this.tankWarFrame.addBullet(new KLBullet(this.pos_x, this.pos_y, this.direction, this.group, this, this.tankWarFrame));
-                            break;
-                        default:
-                            this.tankWarFrame.addBullet(new Missile(this.pos_x, this.pos_y, this.direction, this.group, this, this.tankWarFrame));
-                            break;
-                    }
-                }
-            } else {
-                this.tankWarFrame.addBullet(new Missile(this.pos_x, this.pos_y, this.direction, this.group, this, this.tankWarFrame));
+
+            switch (this.weaponType) {
+                case BULLET:
+                    this.tankWarFrame.addBullet(new Bullet(this.pos_x, this.pos_y, this.direction, this.group, this, this.tankWarFrame));
+                    break;
+                case MISSILE:
+                    this.tankWarFrame.addBullet(new Missile(this.pos_x, this.pos_y, this.direction, this.group, this, this.tankWarFrame));
+                    break;
+                case DINOSAUR:
+                    this.tankWarFrame.addBullet(new Dinosaur(this.pos_x, this.pos_y, this.direction, this.group, this, this.tankWarFrame));
+                    break;
+                case SUPER_MISSILE:
+                    break;
             }
         }
     }
@@ -250,13 +248,5 @@ public class Tank {
 
     public void setLiving(boolean living) {
         isLiving = living;
-    }
-
-    public void eatAwardList(Award award) {
-        this.awardList.add(award);
-    }
-
-    public List<Award> getEatAwardList() {
-        return this.awardList;
     }
 }

@@ -36,7 +36,7 @@ public class TankWarFrame extends Frame {
     private List<Tank> hostileTanks = new ArrayList<>();
 
     /* 主战坦克的子弹*/
-    private List<Bullet> bullets = new ArrayList<>();
+    private List<Weapon> weapons = new ArrayList<>();
 
     /* 主战坦克*/
     private Tank mainTank = new Tank(0, 100, Group.GOOD, this);
@@ -177,8 +177,8 @@ public class TankWarFrame extends Frame {
             case MINE:
                 award = new MineAward(tank.getX(), tank.getY(), this);
                 break;
-            case KL:
-                award = new KLAward(tank.getX(), tank.getY(), this);
+            case DINOSAUR:
+                award = new DinosaurAward(tank.getX(), tank.getY(), this);
                 break;
             case TANK:
                 award = new TankAward(tank.getX(), tank.getY(), this);
@@ -199,8 +199,8 @@ public class TankWarFrame extends Frame {
             mainTank.paint(g);
         }
 
-        for (int i = 0; i < bullets.size(); i ++) {
-            bullets.get(i).paint(g);
+        for (int i = 0; i < weapons.size(); i ++) {
+            weapons.get(i).paint(g);
         }
 
         for(int i = 0; i < hostileTanks.size(); i ++) {
@@ -217,13 +217,16 @@ public class TankWarFrame extends Frame {
 
         for (int i = 0; i < hostileTanks.size(); i ++) {
             Tank tank = hostileTanks.get(i);
-            for (int j = 0; j < bullets.size(); j ++) {
-                Bullet bullet = bullets.get(j);
-                if (tank.isCollideWith(bullet)) {
+            for (int j = 0; j < weapons.size(); j ++) {
+                Weapon weapon = weapons.get(j);
+                if (tank.isCollideWith(weapon)) {
                     tank.die();
-                    bullet.die();
+                    weapon.die();
                     addExplode(new Explode(tank.getX(), tank.getY(), this));
-                    addAward(this.getAwardByTank(tank));
+                    Award award = this.getAwardByTank(tank);
+                    if (award != null) {
+                        addAward(award);
+                    }
                     return;
                 }
             }
@@ -248,17 +251,17 @@ public class TankWarFrame extends Frame {
                 } else if (award.getType() == Award.Type.TANK) {
                     /* 成功吃掉会增加一条命 */
                     mainTank.addLifeNumber();
-                } else if (award.getType() == Award.Type.KL) {
-                    mainTank.eatAwardList(award);
+                } else if (award.getType() == Award.Type.DINOSAUR) {
+                    mainTank.setWeaponType(Weapon.Type.DINOSAUR);
                 }
             }
         }
 
         /* 是否被敌方子弹击中 */
-        for (int i = 0; i < bullets.size(); i ++) {
-            Bullet bullet = bullets.get(i);
-            if (mainTank.getLiving() && mainTank.isCollideWith(bullet)) {
-                bullet.die();
+        for (int i = 0; i < weapons.size(); i ++) {
+            Weapon weapon = weapons.get(i);
+            if (mainTank.getLiving() && mainTank.isCollideWith(weapon)) {
+                weapon.die();
                 mainTank.subLifeNumber();
                 if (mainTank.getLifeNumber() == 0 && ! isGodOn) {
                     mainTank.die();
@@ -272,19 +275,19 @@ public class TankWarFrame extends Frame {
     private void showInfo(Graphics graphics) {
         Color color = graphics.getColor();
         graphics.setColor(Color.WHITE);
-        graphics.drawString("Bullet Num: " + bullets.size(),15, 45);
+        graphics.drawString("Bullet Num: " + weapons.size(),15, 45);
         graphics.drawString("Tank  Num: " + hostileTanks.size(),15, 60);
         graphics.drawString("MainTank Life: " + mainTank.getLifeNumber(),15, 75);
         graphics.drawString("Killed Tank Num: " + mainTank.getKilledTankNumber(),15, 90);
         graphics.setColor(color);
     }
 
-    public void addBullet(Bullet bullet) {
-        bullets.add(bullet);
+    public void addBullet(Weapon weapon) {
+        weapons.add(weapon);
     }
 
-    public void removeBullet(Bullet bullet) {
-        bullets.remove(bullet);
+    public void removeBullet(Weapon weapon) {
+        weapons.remove(weapon);
     }
 
     class Point {

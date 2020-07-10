@@ -3,7 +3,7 @@ package com.kerust.tankwar;
 import java.awt.*;
 
 /* 生成随机奖励 */
-public class KLAward implements Award {
+public class DinosaurAward implements Award {
 
     int step = 0;
     private int x = 0;
@@ -12,7 +12,7 @@ public class KLAward implements Award {
     private boolean isLiving = true;
     private TankWarFrame tankWarFrame = null;
 
-    public KLAward(int x, int y, TankWarFrame tankWarFrame) {
+    public DinosaurAward(int x, int y, TankWarFrame tankWarFrame) {
         this.x = x;
         this.y = y;
         this.tankWarFrame = tankWarFrame;
@@ -27,7 +27,7 @@ public class KLAward implements Award {
     }
 
     public Award.Type getType() {
-        return Award.Type.KL;
+        return Type.DINOSAUR;
     }
 
     public int getX() {
@@ -50,7 +50,7 @@ public class KLAward implements Award {
         }
 
         /* 奖励大概停留8s后自动消失 */
-        if (step > 8 * tankWarFrame.BASE) {
+        if (step > 8 * TankWarFrame.BASE) {
             this.tankWarFrame.removeAward(this);
             return;
         }

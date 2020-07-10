@@ -2,7 +2,8 @@ package com.kerust.tankwar;
 
 import java.awt.*;
 
-public class KLBullet implements Bullet {
+/* 恐龙导弹，发射出一只恐龙 */
+public class Dinosaur implements Weapon {
 
     public static final int BULLET_SPEED = 15;
     private static final int BULLET_WIDTH = ResourceMgr.kl_bullets[0].getWidth();
@@ -39,7 +40,7 @@ public class KLBullet implements Bullet {
     private TankWarFrame tankWarFrame = null;
     private Direction direction = Direction.RIGHT;
 
-    public KLBullet(int pos_x, int pos_y, Direction direction, Group group, Tank tank, TankWarFrame tankWarFrame) {
+    public Dinosaur(int pos_x, int pos_y, Direction direction, Group group, Tank tank, TankWarFrame tankWarFrame) {
 
         this.tank = tank;
         this.group = group;

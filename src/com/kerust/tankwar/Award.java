@@ -25,7 +25,7 @@ public interface Award {
         STAR, /* 吃了武器会变厉害 */
         MINE, /* 地雷： 吃了会炸掉屏幕上所有敌方坦克 */
         TANK, /* 吃了增加一条命 */
-        KL /* 吃了会发射恐龙子弹 */
+        DINOSAUR /* 吃了会发射恐龙子弹 */
     }
 
     public static Type getRandomAwardType() {
@@ -38,7 +38,7 @@ public interface Award {
         if (num >= 0 && num <= 39) {
             return Type.NONE;
         } else if (num >= 40 && num<= 49) {
-            return Type.KL;
+            return Type.DINOSAUR;
         } else if (num >= 50 && num <= 79) {
             return Type.STAR;
         } else if (num >= 80 && num <= 89) {
