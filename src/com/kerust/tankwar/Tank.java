@@ -18,7 +18,6 @@ public class Tank {
     private Random random = new Random();
     private TankWarFrame tankWarFrame = null;
     private Direction direction = Direction.RIGHT;
-
     private Weapon.Type weaponType = Weapon.Type.BULLET;
 
     /* 杀死的坦克数量*/
@@ -35,7 +34,7 @@ public class Tank {
         this.pos_y = pos_y;
         this.group = group;
         this.tankWarFrame = tankWarFrame;
-        awardType = Award.getRandomAwardType();
+        this.awardType = Award.getRandomAwardType();
         this.lifeNumber = 3; //(group == Group.GOOD? 3 : 1);
     }
 
@@ -205,24 +204,19 @@ public class Tank {
             return;
         }
 
-        if (group == Group.BAD) {
-            this.tankWarFrame.addBullet(new Bullet(this.pos_x, this.pos_y, this.direction, this.group, this, this.tankWarFrame));
-        } else {
-
-            switch (this.weaponType) {
-                case BULLET:
-                    this.tankWarFrame.addBullet(new Bullet(this.pos_x, this.pos_y, this.direction, this.group, this, this.tankWarFrame));
-                    break;
-                case MISSILE:
-                    this.tankWarFrame.addBullet(new Missile(this.pos_x, this.pos_y, this.direction, this.group, this, this.tankWarFrame));
-                    break;
-                case DINOSAUR:
-                    this.tankWarFrame.addBullet(new Dinosaur(this.pos_x, this.pos_y, this.direction, this.group, this, this.tankWarFrame));
-                    break;
-                case SUPER_MISSILE:
-                    this.tankWarFrame.addBullet(new SuperMissile(this.pos_x, this.pos_y, this.direction, this.group, this, this.tankWarFrame));
-                    break;
-            }
+        switch (this.weaponType) {
+            case BULLET:
+                this.tankWarFrame.addBullet(new Bullet(this.pos_x, this.pos_y, this.direction, this.group, this, this.tankWarFrame));
+                break;
+            case MISSILE:
+                this.tankWarFrame.addBullet(new Missile(this.pos_x, this.pos_y, this.direction, this.group, this, this.tankWarFrame));
+                break;
+            case DINOSAUR:
+                this.tankWarFrame.addBullet(new Dinosaur(this.pos_x, this.pos_y, this.direction, this.group, this, this.tankWarFrame));
+                break;
+            case SUPER_MISSILE:
+                this.tankWarFrame.addBullet(new SuperMissile(this.pos_x, this.pos_y, this.direction, this.group, this, this.tankWarFrame));
+                break;
         }
     }
 
