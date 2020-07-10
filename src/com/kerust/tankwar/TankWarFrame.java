@@ -46,6 +46,15 @@ public class TankWarFrame extends Frame {
     /* 奖励 */
     private List<Award> awards = new ArrayList<>();
 
+    private static boolean isEnableSound = true;
+
+    public static boolean enableSound() {
+        return isEnableSound;
+    }
+    public static void enableSound(boolean enableSound) {
+        isEnableSound = enableSound;
+    }
+
     static {
         Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
         LAYOUT_WIDTH = (int)dimension.getWidth();
@@ -56,7 +65,7 @@ public class TankWarFrame extends Frame {
         this.setVisible(true);
         this.setResizable(false);
         this.setTitle(TANK_WAR_TITLE);
-        this.setMenuBar(initMenuBar());
+
         this.setSize(LAYOUT_WIDTH, LAYOUT_HEIGHT);
         this.addKeyListener(new MyKeyListener());
         this.addWindowListener(new WindowAdapter() {
@@ -65,28 +74,8 @@ public class TankWarFrame extends Frame {
                 System.exit(EXIT_SUCCESS);
             }
         });
-
+        this.setMenuBar(new TankFrameMenuBar(mainTank, this).createMenuBar());
         initHostileTanks();
-    }
-
-    private MenuBar initMenuBar() {
-
-        MenuBar menuBar = new MenuBar();
-        Menu menu = new Menu("Game");
-        MenuItem menuItemRestart = new MenuItem("Restart");
-
-        menuItemRestart.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                mainTank.setLiving(true);
-                mainTank.setLifeNumber(3);
-            }
-        });
-
-        menu.add(menuItemRestart);
-        menuBar.add(menu);
-
-        return menuBar;
     }
 
     private void initHostileTanks() {
@@ -97,6 +86,10 @@ public class TankWarFrame extends Frame {
             hostileTanks.add(tank);
         }
     }
+
+    public boolean getGodOn() { return this.isGodOn; }
+
+    public void setGodOn(boolean on) { this.isGodOn = on; }
 
     private void addHostileTanks() {
 

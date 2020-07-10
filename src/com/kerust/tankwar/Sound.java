@@ -9,31 +9,31 @@ public class Sound {
     public static final String MISSILE_SOUND_PATH = "images/audio/good_bullet.wav";
 
     public static void play_award_sound() {
-        if (GameController.enableSound()) {
+        if (TankWarFrame.enableSound()) {
             new Audio(ResourceMgr.class.getClassLoader().getResourceAsStream(AWARD_SOUND_PATH)).start();
         }
     }
 
     public static void play_explode_sound() {
-        if (GameController.enableSound()) {
+        if (TankWarFrame.enableSound()) {
             new Audio(ResourceMgr.class.getClassLoader().getResourceAsStream(EXPLODE_SOUND_PATH)).start();
         }
     }
 
     public static void play_missile_sound() {
-        if (GameController.enableSound()) {
+        if (TankWarFrame.enableSound()) {
             new Audio(ResourceMgr.class.getClassLoader().getResourceAsStream(MISSILE_SOUND_PATH)).start();
         }
     }
 
     public static void play_bullet_sound() {
-        if (GameController.enableSound()) {
+        if (TankWarFrame.enableSound()) {
             new Audio(ResourceMgr.class.getClassLoader().getResourceAsStream(BULLET_SOUND_PATH)).start();
         }
     }
 
     public static void play_game_over_sound() {
-        if (GameController.enableSound()) {
+        if (TankWarFrame.enableSound()) {
             new Audio(ResourceMgr.class.getClassLoader().getResourceAsStream(GAME_OVER_SOUND)).start();
         }
     }
