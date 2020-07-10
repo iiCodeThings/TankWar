@@ -199,17 +199,6 @@ public class Tank {
 
     public boolean getMoving() { return this.isMoving; }
 
-    public void fireEverywhere() {
-
-        if (! isLiving) {
-            return;
-        }
-
-        for (int i = 0; i < Direction.values().length; i ++) {
-            this.tankWarFrame.addBullet(new Missile(this.pos_x, this.pos_y, Direction.values()[i], this.group, this, this.tankWarFrame));
-        }
-    }
-
     public void fire() {
 
         if (! isLiving) {
@@ -231,6 +220,7 @@ public class Tank {
                     this.tankWarFrame.addBullet(new Dinosaur(this.pos_x, this.pos_y, this.direction, this.group, this, this.tankWarFrame));
                     break;
                 case SUPER_MISSILE:
+                    this.tankWarFrame.addBullet(new SuperMissile(this.pos_x, this.pos_y, this.direction, this.group, this, this.tankWarFrame));
                     break;
             }
         }

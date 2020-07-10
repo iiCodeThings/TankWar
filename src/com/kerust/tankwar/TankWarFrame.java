@@ -247,7 +247,7 @@ public class TankWarFrame extends Frame {
                     }
                 } else if (award.getType() == Award.Type.STAR) {
                     /* 成功吃掉星星会朝四个方向打子弹 */
-                    mainTank.fireEverywhere();
+                    mainTank.setWeaponType(Weapon.Type.SUPER_MISSILE);
                 } else if (award.getType() == Award.Type.TANK) {
                     /* 成功吃掉会增加一条命 */
                     mainTank.addLifeNumber();
