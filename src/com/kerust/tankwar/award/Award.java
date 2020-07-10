@@ -1,4 +1,4 @@
-package com.kerust.tankwar;
+package com.kerust.tankwar.award;
 
 import java.awt.*;
 import java.util.Random;

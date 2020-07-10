@@ -1,6 +1,8 @@
 package com.kerust.tankwar;
 
-import javax.swing.*;
+import com.kerust.tankwar.award.*;
+import com.kerust.tankwar.weapon.Weapon;
+
 import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;

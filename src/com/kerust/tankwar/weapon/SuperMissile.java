@@ -1,9 +1,11 @@
-package com.kerust.tankwar;
+package com.kerust.tankwar.weapon;
+
+import com.kerust.tankwar.*;
 
 import java.awt.*;
 
 /* 超级导弹，可以同时向四个发射 */
-public class SuperMissile implements Weapon{
+public class SuperMissile implements Weapon {
 
     public static final int BULLET_SPEED = 15;
     public static final int BULLET_WIDTH = ResourceMgr.bullets[0].getWidth();

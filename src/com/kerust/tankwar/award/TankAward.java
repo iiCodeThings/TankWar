@@ -1,9 +1,13 @@
-package com.kerust.tankwar;
+package com.kerust.tankwar.award;
+
+import com.kerust.tankwar.ResourceMgr;
+import com.kerust.tankwar.TankWarFrame;
+import com.kerust.tankwar.award.Award;
 
 import java.awt.*;
 
 /* 生成随机奖励 */
-public class StarAward implements Award{
+public class TankAward implements Award {
 
     int step = 0;
     private int x = 0;
@@ -11,22 +15,23 @@ public class StarAward implements Award{
     private boolean isLiving = true;
     private TankWarFrame tankWarFrame = null;
 
-    public StarAward(int x, int y, TankWarFrame tankWarFrame) {
+    public TankAward(int x, int y, TankWarFrame tankWarFrame) {
         this.x = x;
         this.y = y;
         this.tankWarFrame = tankWarFrame;
     }
 
     public int getWidth() {
-        return ResourceMgr.stars[0].getWidth();
+        return ResourceMgr.awardTanks[0].getWidth();
     }
 
     public int getHeight() {
-        return ResourceMgr.stars[0].getHeight();
+        return ResourceMgr.awardTanks[0].getHeight();
     }
 
+
     public Award.Type getType() {
-        return Award.Type.STAR;
+        return Award.Type.TANK;
     }
 
     public int getX() {
@@ -54,7 +59,6 @@ public class StarAward implements Award{
             return;
         }
 
-        graphics.drawImage(ResourceMgr.stars[step++ % ResourceMgr.stars.length], this.x, this.y, null);
-
+        graphics.drawImage(ResourceMgr.awardTanks[step++ % ResourceMgr.awardTanks.length], this.x, this.y, null);
     }
 }

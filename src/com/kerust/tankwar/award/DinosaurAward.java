@@ -1,4 +1,8 @@
-package com.kerust.tankwar;
+package com.kerust.tankwar.award;
+
+import com.kerust.tankwar.ResourceMgr;
+import com.kerust.tankwar.TankWarFrame;
+import com.kerust.tankwar.award.Award;
 
 import java.awt.*;
 

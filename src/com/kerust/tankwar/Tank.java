@@ -1,5 +1,8 @@
 package com.kerust.tankwar;
 
+import com.kerust.tankwar.award.Award;
+import com.kerust.tankwar.weapon.*;
+
 import java.awt.*;
 import java.util.Random;
 

@@ -1,9 +1,12 @@
-package com.kerust.tankwar;
+package com.kerust.tankwar.weapon;
+
+import com.kerust.tankwar.*;
+import com.kerust.tankwar.weapon.Weapon;
 
 import java.awt.*;
 
 /* 普通子弹 */
-public class Bullet implements Weapon{
+public class Bullet implements Weapon {
 
     public static final int BULLET_SPEED = 15;
     public static final int BULLET_WIDTH = 10;

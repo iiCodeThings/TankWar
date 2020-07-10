@@ -1,9 +1,11 @@
-package com.kerust.tankwar;
+package com.kerust.tankwar.weapon;
+
+import com.kerust.tankwar.*;
 
 import java.awt.*;
 
 /* 导弹 */
-public class Missile implements Weapon{
+public class Missile implements Weapon {
 
     public static final int BULLET_SPEED = 15;
     public static final int BULLET_WIDTH = ResourceMgr.bullets[0].getWidth();

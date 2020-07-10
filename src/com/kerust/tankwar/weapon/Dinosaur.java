@@ -1,4 +1,6 @@
-package com.kerust.tankwar;
+package com.kerust.tankwar.weapon;
+
+import com.kerust.tankwar.*;
 
 import java.awt.*;
 
