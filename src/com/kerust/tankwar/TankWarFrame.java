@@ -47,6 +47,7 @@ public class TankWarFrame extends Frame {
     private List<Award> awards = new ArrayList<>();
 
     private static boolean isEnableSound = true;
+    private boolean isHardMode = false;
 
     public static boolean enableSound() {
         return isEnableSound;
@@ -103,6 +104,9 @@ public class TankWarFrame extends Frame {
             hostileTanks.add(tank);
         }
     }
+
+    public boolean hardMode() { return  this.isHardMode; }
+    public void hardMode(boolean hardMode) { this.isHardMode = hardMode; }
 
     public void addAward(Award award) {
         this.awards.add(award);
@@ -192,6 +196,10 @@ public class TankWarFrame extends Frame {
 
         if (mainTank.getLiving()) {
             mainTank.paint(g);
+        }
+
+        if (isHardMode) {
+            this.addHostileTanks();
         }
 
         for (int i = 0; i < weapons.size(); i ++) {

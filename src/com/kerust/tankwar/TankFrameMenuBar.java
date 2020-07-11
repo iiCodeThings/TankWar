@@ -21,6 +21,7 @@ public class TankFrameMenuBar {
         MenuItem menuItemGodOn = new MenuItem("God On");
         MenuItem menuItemRestart = new MenuItem("Restart");
         MenuItem menuItemSound = new MenuItem("Enable Sound");
+        MenuItem menuItemHardMode = new MenuItem("Hard Mode");
 
         menuItemRestart.addActionListener(new ActionListener() {
             @Override
@@ -45,9 +46,18 @@ public class TankFrameMenuBar {
                 tankWarFrame.enableSound(! tankWarFrame.enableSound());
             }
         });
+
+        menuItemHardMode.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                menuItemHardMode.setLabel(tankWarFrame.hardMode() ? "Hard Mode On" : "Hard Mode Off");
+                tankWarFrame.hardMode(! tankWarFrame.hardMode());
+            }
+        });
         menu.add(menuItemRestart);
         menu.add(menuItemGodOn);
         menu.add(menuItemSound);
+        menu.add(menuItemHardMode);
         menuBar.add(menu);
 
         return menuBar;
